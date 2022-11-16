@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@next/font": "^13.0.3",
+    "class-variance-authority": "^0.3.0",
     "config": "workspace:*",
     "next": "13.0.0",
     "next-transpile-modules": "^10.0.0",

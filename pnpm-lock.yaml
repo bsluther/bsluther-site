@@ -50,9 +50,11 @@ importers:
   apps/web:
     specifiers:
       '@babel/core': ^7.0.0
+      '@next/font': ^13.0.3
       '@types/node': ^17.0.12
       '@types/react': ^18.0.22
       '@types/react-dom': ^18.0.7
+      class-variance-authority: ^0.3.0
       config: workspace:*
       eslint: 7.32.0
       eslint-config-custom: workspace:*
@@ -64,6 +66,8 @@ importers:
       typescript: ^4.5.3
       ui: workspace:*
     dependencies:
+      '@next/font': 13.0.3
+      class-variance-authority: 0.3.0_typescript@4.8.4
       config: link:../../packages/config
       next: 13.0.0_mqvh5p7ejg4taogoj6tpk3gd5a
       next-transpile-modules: 10.0.0
@@ -393,6 +397,10 @@ packages:
     resolution: {integrity: sha512-z+gnX4Zizatqatc6f4CQrcC9oN8Us3Vrq/OLyc98h7K/eWctrnV91zFZodmJHUjx0cITY8uYM7LXD7IdYkg3kg==}
     dependencies:
       glob: 7.1.7
+    dev: false
+
+  /@next/font/13.0.3:
+    resolution: {integrity: sha512-J3bZooNyhzhRshEJZlc4Kagfx6f8LQkPdCsP0nZm63dAUaoeMaQRidFFhbL68WZ3S5XleVfpGYypZuBSyJqYtw==}
     dev: false
 
   /@next/swc-android-arm-eabi/13.0.0:
@@ -865,6 +873,17 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /class-variance-authority/0.3.0_typescript@4.8.4:
+    resolution: {integrity: sha512-TFO+pzY9Gedqv8crPhprd647wxhvfpKevPPjiMcteEWsnkHX9yZrD1xMY3ZhRZnLwHUHCCP0LYO6KZIVag/5wQ==}
+    peerDependencies:
+      typescript: '>= 4.5.5 < 5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      typescript: 4.8.4
+    dev: false
 
   /client-only/0.0.1:
     resolution: {integrity: sha512-IV3Ou0jSMzZrd3pZ48nLkT9DA7Ag1pnPzaiQhpW7c3RbcqqzvzzVu+L8gfqMp/8IM2MQtSiqaCxrrcfu8I8rMA==}
