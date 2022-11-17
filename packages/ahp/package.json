@@ -1,0 +1,23 @@
+{
+  "name": "ahp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.17",
+    "@types/react-dom": "^18.0.6",
+    "eslint": "^7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "react": "^18.2.0",
+    "tsconfig": "workspace:*",
+    "config": "workspace:*",
+    "typescript": "^4.5.2"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

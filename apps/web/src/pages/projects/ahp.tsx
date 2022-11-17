@@ -1,6 +1,10 @@
+import { Sandbox } from "ahp"
+
 const Ahp = () => {
   return (
-    <p>AHT</p>
+    <div>
+      <Sandbox />
+    </div>
   )
 }
 
