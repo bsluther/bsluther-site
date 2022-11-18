@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { ReactNode, useState } from 'react'
 
-const NameIcon = () => {
+export const NameIcon = () => {
   const router = useRouter()
   return (
     <button 
@@ -44,16 +44,7 @@ const button = cva(
   }
 )
 
-const Subitem = ({ label, href }: { label: string, href: string }) => {
-  return (
-    <Link 
-      // className='text-neutral-100 border-b-2 border-x-2 border-neutral-100 text-center'
-      // className={button({ active: href === })}
-      href={href}
-    >{label}</Link>
-  )
-}
-const ExpandableMenuButton = ({ href, children, subitems }: { href: string, children: ReactNode, active?: boolean, subitems: [string, string][] }) => {
+export const ExpandableMenuButton = ({ href, children, subitems }: { href: string, children: ReactNode, active?: boolean, subitems: [string, string][] }) => {
   const router = useRouter()
 
   return (
@@ -75,7 +66,7 @@ const ExpandableMenuButton = ({ href, children, subitems }: { href: string, chil
   )
 }
 
-const MenuButton = ({ href, children, stacked }: { href: string, children: ReactNode, stacked?: boolean }) => {
+export const MenuButton = ({ href, children, stacked }: { href: string, children: ReactNode, stacked?: boolean }) => {
   const router = useRouter()
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react'
-export const CheckCircleSvg: React.FC<{ className?: string, strokeWidth?: number }>  = props =>
+export const CheckCircleSvg: React.FC<{ className?: string, strokeWidth?: number, onClick?: (e: React.SyntheticEvent) => void  }>  = props =>
   <svg 
     fill="none"
     stroke="currentColor" 

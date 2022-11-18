@@ -51,13 +51,16 @@ const reducer = (state: AppState, action: Action) => {
 
 export const App = () => {
   const [store, dispatch] = useReducer(reducer, {}, initStore)
+  console.log(store)
 
   return (
-    <div className='text-neutral-100 w-full h-full flex items-center justify-center'>
-      <ChooseGoal 
-        goal={store.goal.description} 
-        setGoal={str => dispatch({ type: 'describeGoal', payload: { description: str }})} 
-      />
+    <div className='border border-pink-400 text-neutral-100 w-full h-full flex items-center justify-center'>
+
+        <ChooseGoal 
+          goal={store.goal.description} 
+          setGoal={str => dispatch({ type: 'describeGoal', payload: { description: str }})} 
+        />
+
     </div>
   )
 }

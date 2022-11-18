@@ -93,6 +93,7 @@ importers:
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
       '@types/uuid': ^8.3.4
+      class-variance-authority: ^0.3.0
       config: workspace:*
       eslint: ^7.32.0
       eslint-config-custom: workspace:*
@@ -102,6 +103,7 @@ importers:
       ui: workspace:*
       uuid: ^9.0.0
     dependencies:
+      class-variance-authority: 0.3.0_typescript@4.8.4
       uuid: 9.0.0
     devDependencies:
       '@types/react': 18.0.25
