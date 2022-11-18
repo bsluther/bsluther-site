@@ -1,10 +1,11 @@
-import { Sandbox } from "ahp"
+import { App } from 'ahp'
 
 const Ahp = () => {
   return (
-    <div>
-      <Sandbox />
-    </div>
+    <>
+      <App />
+    </>
+    
   )
 }
 
