@@ -1,65 +1,64 @@
-import * as React from 'react'
-import { v4 as uuid } from 'uuid'
-/*
-process state:
-  choose goal
-  choose options
-  choose criteria
-*/
-
 import { useReducer } from 'react'
 import { ChooseGoal } from './components/ChooseGoal'
+import { ProgressBar } from './components/ProgressBar'
+import { Steps } from './core'
+import { appReducer, initStore } from './appReducer'
+import { AlternativesStep } from './components/AlternativesStep'
+import { CriteriaStep } from './components/CriteriaStep'
 
-interface Goal {
-  id: string
-  description: string
+
+interface StepRouterProps {
+  step: Steps
+  elements: Record<Steps, JSX.Element>
 }
-
-interface AppState {
-  goal: Goal
-}
-
-enum ActionTypes {
-  DescribeGoal = 'describeGoal'
-}
-
-interface DescribeGoalAction {
-  type: 'describeGoal',
-  payload: {
-    description: string
-  }
-}
-
-type Action = DescribeGoalAction
-
-const initStore = () => ({
-  goal: {
-    id: uuid(),
-    description: ''
-  }
-})
-
-const reducer = (state: AppState, action: Action) => {
-  const { type, payload } = action
-  switch (type) {
-    case 'describeGoal':
-      return { ...state, goal: { ...state.goal, description: payload.description } }
-
-    default: return state
-  }
+const StepRouter = ({ step, elements }: StepRouterProps) => {
+  return elements[step]
 }
 
 export const App = () => {
-  const [store, dispatch] = useReducer(reducer, {}, initStore)
-  console.log(store)
+  const [store, dispatch] = useReducer(appReducer, {}, initStore)
 
   return (
-    <div className='border border-pink-400 text-neutral-100 w-full h-full flex items-center justify-center'>
+    <div className='text-neutral-100 w-full h-full flex items-center justify-center'>
 
-        <ChooseGoal 
-          goal={store.goal.description} 
-          setGoal={str => dispatch({ type: 'describeGoal', payload: { description: str }})} 
-        />
+        <div className='grow h-full flex items-center justify-center'>
+          <StepRouter
+            step={store.step}
+            elements={{
+              [Steps.Goal]:
+                <ChooseGoal 
+                  goal={store.goal.description} 
+                  setGoal={str => dispatch({ type: 'describeGoal', payload: str })} 
+                />,
+              [Steps.Alternatives]:
+                <AlternativesStep 
+                  alternatives={store.goal.alternatives} 
+                  alternativesOrder={store.goal.alternativesOrder}
+                  dispatch={dispatch} 
+                />,
+              [Steps.Criteria]:
+                <CriteriaStep
+                  criteria={store.goal.criteria}
+                  criteriaOrder={store.goal.criteriaOrder}
+                  dispatch={dispatch}
+                />,
+              [Steps.CompareCriteria]:
+                <></>,
+              [Steps.CompareAlternatives]:
+                <></>,
+              [Steps.Results]:
+                <></>
+              
+            }}
+          />
+        </div>
+        <div className='h-full'>
+          <ProgressBar
+            store={store}
+            currentStep={store.step}
+            gotoStep={(step: Steps) => dispatch({ type: 'gotoStep', payload: step })}
+          />
+        </div>
 
     </div>
   )
