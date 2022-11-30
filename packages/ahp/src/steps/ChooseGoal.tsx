@@ -17,7 +17,6 @@ export const ChooseGoal = ({ goal, setGoal }: { goal: string, setGoal: (str: str
   const [newGoal, setNewGoal] = useState(goal)
   const [invalidated, setInvalidated] = useState(false)
   const [saved, setSaved] = useState(false)
-  // console.log('invalidated', invalidated)
 
   const tooShort = newGoal.length < 3
 
@@ -33,9 +32,16 @@ export const ChooseGoal = ({ goal, setGoal }: { goal: string, setGoal: (str: str
 
   return (
     <div className='relative w-full h-full'>
-      <div className={`absolute top-1/4 left-1/2 -translate-x-1/2 border border-green-400 w-max h-max px-8 py-4 rounded-md flex flex-col justify-center items-center space-y-4`}>
-        <h1 className='text-green-400'>What's your goal?</h1>
-        <textarea 
+      <form 
+        className={`absolute top-1/4 left-1/2 -translate-x-1/2 border border-green-400 w-max h-max px-8 py-4 rounded-md flex flex-col justify-center items-center space-y-4`}
+        onSubmit={e => {
+          e.preventDefault()
+          handleSaveGoal(newGoal)}
+        }  
+      >
+        <label htmlFor='goal' className='text-green-400'>What's your goal?</label>
+        <input 
+          id='goal'
           className={textareaCva()}
           spellCheck={false}
           placeholder='choose a name for my cat'
@@ -45,18 +51,17 @@ export const ChooseGoal = ({ goal, setGoal }: { goal: string, setGoal: (str: str
             setInvalidated(false)
           }}
         />
-        <div className='w-max h-max relative'>
+        <button className='w-max h-max relative'>
           <CheckCircleSvg 
             className={button({ valid: newGoal.length > 2})} 
             strokeWidth={1} 
-            onClick={() => handleSaveGoal(newGoal)}
           />
           {invalidated && tooShort &&
             <div
               className='absolute left-full top-0 flex w-48 text-sm text-center bg-neutral-600 px-1 rounded-md translate-x-4'
             >Your goal must be at least 3 characters long.</div>}
-        </div>
-      </div>
+        </button>
+      </form>
     </div>
   )
 }

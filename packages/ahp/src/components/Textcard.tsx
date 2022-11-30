@@ -7,11 +7,12 @@ interface TextcardProps {
   entity: Entity
   index: number
   name: string
-  removeEntity: () => void
-  describeEntity: (str: string) => void
+  removeEntity?: () => void
+  describeEntity?: (str: string) => void
+  frozen?: boolean
 }
 
-export const Textcard = ({ entity, index, name, removeEntity, describeEntity }: TextcardProps) => {
+export const Textcard = ({ entity, index, name, removeEntity = () => null, describeEntity = () => null, frozen = false }: TextcardProps) => {
   const [hovered, setHovered] = useState(false)
 
 
@@ -29,7 +30,7 @@ export const Textcard = ({ entity, index, name, removeEntity, describeEntity }: 
         onChange={e => describeEntity(e.target.value)}
         value={entity.description}
       />
-      {hovered && 
+      {hovered && !frozen &&
         <XCircleSvg
           className='absolute top-0 right-0 translate-x-1/2 translate-y-1/2 fill-neutral-900 w-6 h-6 text-red-400 cursor-pointer' 
           onClick={removeEntity}

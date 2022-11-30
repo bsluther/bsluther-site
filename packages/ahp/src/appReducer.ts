@@ -2,12 +2,14 @@ import { v4 as uuid } from 'uuid'
 import { Lens } from 'monocle-ts'
 import { Reducer } from 'react'
 import { pipe } from 'fp-ts/lib/function'
-import { Goal, Alternative, Steps, Criterion } from './core'
-import { append, filter as filterArray } from 'fp-ts/lib/Array'
+import { Goal, Alternative, Steps, Criterion, Comparisons, Matrix, Rating } from './core'
+import { append, concat, filter as filterArray } from 'fp-ts/lib/Array'
 import { filter as filterRecord } from 'fp-ts/lib/ReadonlyRecord'
+import * as O from 'fp-ts/Option'
 
 export interface AppState {
-  goal: Goal,
+  goal: Goal
+  comparisons: Comparisons
   step: Steps
 }
 
@@ -33,8 +35,60 @@ export const initStore = (): AppState => {
       },
       criteriaOrder: [initialCrtId]
     },
+    comparisons: {
+      id: uuid(),
+      criteria: [[1]],
+      alternatives: {}
+    },
     step: Steps.Goal
 }}
+
+/*** MATRIX OPERATIONS ***/
+
+const incrementDimension = (mtx: Matrix): Matrix =>
+  mtx.map(row => [...row, 'EMPTY' as 'EMPTY'])
+  .concat([new Array(mtx.length).fill('EMPTY' as 'EMPTY', 0, mtx.length).concat(1)])
+
+const removeIndex = (ix: number) => (mtx: Matrix) =>
+  mtx.slice(0, ix).concat(mtx.slice(ix + 1)).map(row => row.slice(0, ix).concat(row.slice(ix + 1)))
+
+export const findEmpty = (mtx: Matrix) => {
+  let result
+  for (let i = 0; i < mtx.length; i++) {
+    for (let k = 0; k < mtx[i].length; k++) {
+      if (mtx[i][k] === 'EMPTY') {
+        result = ({ x: k, y: i })
+        break
+      }
+    }
+    if (result) {
+      break
+    }
+  }
+  return result ? O.some(result) : O.none
+}
+
+const updateIndex = <T>(updater: (el: T) => T) => (ix: number) => (arr: T[]) => {
+  const left = arr.slice(0, ix)
+  const right = arr.slice(ix + 1)
+  const newEl = [updater(arr[ix])]
+
+  return pipe(
+  	left,
+    concat(newEl),
+    concat(right)
+  )
+}
+
+const setCell = ({ x, y, rating}: SetCriteriaCellParams) => (mtx: Matrix) => {
+  return updateIndex<Rating[]>(row => updateIndex<Rating>(() => rating)(x)(row))
+                              (y)
+                              (mtx)
+}
+/*************************/
+
+
+
 
 const makeLens = Lens.fromPath<AppState>()
 const stepLens = makeLens(['step'])
@@ -55,7 +109,6 @@ const appendAlternative = (state: AppState) => {
 
 const updateAlternativeDesc = (id: string) => (desc: string) =>
   makeLens(['goal', 'alternatives', id, 'description']).set(desc)
-
 const removeAlternative = (id: string) => (state: AppState) =>
   pipe(
     state,
@@ -63,13 +116,17 @@ const removeAlternative = (id: string) => (state: AppState) =>
     alternativesOrderLens.modify(filterArray((altId: string) => altId !== id))
   )
 
+export const getCriterionIndex = (id: string) => (state: AppState) =>
+  makeLens(['goal', 'criteriaOrder']).get(state).findIndex(str => str === id)
+
 const appendCriterion = (state: AppState) => {
   const newCrt = ({ id: uuid(), description: '' })
 
   return pipe(
     state,
     makeLens(['goal', 'criteria', newCrt.id]).set(newCrt),
-    makeLens(['goal', 'criteriaOrder']).modify(append(newCrt.id))
+    makeLens(['goal', 'criteriaOrder']).modify(append(newCrt.id)),
+    makeLens(['comparisons', 'criteria']).modify(incrementDimension)
   )
 }
 
@@ -80,7 +137,19 @@ const removeCriterion = (id: string) => (state: AppState) =>
   pipe(
     state,
     makeLens(['goal', 'criteria']).modify(filterRecord((crt: Criterion) => crt.id !== id)),
-    makeLens(['goal', 'criteriaOrder']).modify(filterArray((crtId: string) => crtId !== id))
+    makeLens(['goal', 'criteriaOrder']).modify(filterArray((crtId: string) => crtId !== id)),
+    makeLens(['comparisons', 'criteria']).modify(removeIndex(getCriterionIndex(id)(state)))
+  )
+export interface SetCriteriaCellParams {
+  x: number
+  y: number
+  rating: number
+}
+const setCriteriaCell = ({ x, y, rating }: SetCriteriaCellParams) => (state: AppState) =>
+  pipe(
+    state,
+    makeLens(['comparisons', 'criteria']).modify(setCell({ x, y , rating })),
+    makeLens(['comparisons', 'criteria']).modify(setCell({ x: y, y: x, rating: -rating }))
   )
 
 export type Action =
@@ -92,6 +161,7 @@ export type Action =
   | { type: 'appendCriterion', payload: {} }
   | { type: 'describeCriterion', payload: { id: string, description: string} }
   | { type: 'removeCriterion', payload: { id: string } }
+  | { type: 'setCriteriaCell', payload: { x: number, y: number, rating: number }}
   
 export const appReducer: Reducer<AppState, Action> = (state, action) => {
   const { type, payload } = action
@@ -126,6 +196,9 @@ export const appReducer: Reducer<AppState, Action> = (state, action) => {
 
     case 'removeCriterion':
       return removeCriterion(payload.id)(state)
+
+    case 'setCriteriaCell':
+      return setCriteriaCell(payload)(state)
 
     default: return state
   }

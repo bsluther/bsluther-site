@@ -16,6 +16,19 @@ export interface Goal {
   criteriaOrder: string[]
 }
 
+export type Rating = number | 'EMPTY'
+export type Matrix = (Rating)[][]
+
+export interface Comparisons {
+  id: string
+  criteria: Matrix
+  alternatives: AlternativesComparisons
+}
+
+export interface AlternativesComparisons {
+  [key: string]: Matrix
+}
+
 export interface Alternative {
   id: string
   description: string

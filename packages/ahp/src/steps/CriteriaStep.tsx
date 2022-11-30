@@ -1,6 +1,6 @@
 import { Action } from '../appReducer'
 import { Criteria } from '../core'
-import { LastTextcard, NoTextcards, Textcard } from './Textcard'
+import { LastTextcard, NoTextcards, Textcard } from '../components/Textcard'
 
 interface CriteriaStepProps {
   criteria: Criteria

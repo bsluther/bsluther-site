@@ -1,10 +1,11 @@
 import { useReducer } from 'react'
-import { ChooseGoal } from './components/ChooseGoal'
+import { ChooseGoal } from './steps/ChooseGoal'
 import { ProgressBar } from './components/ProgressBar'
 import { Steps } from './core'
-import { appReducer, initStore } from './appReducer'
-import { AlternativesStep } from './components/AlternativesStep'
-import { CriteriaStep } from './components/CriteriaStep'
+import { appReducer, findEmpty, initStore, isStepComplete } from './appReducer'
+import { AlternativesStep } from './steps/AlternativesStep'
+import { CriteriaStep } from './steps/CriteriaStep'
+import { CompareCriteriaStep } from './steps/CompareCriteria2'
 
 
 interface StepRouterProps {
@@ -43,7 +44,16 @@ export const App = () => {
                   dispatch={dispatch}
                 />,
               [Steps.CompareCriteria]:
-                <></>,
+                <CompareCriteriaStep 
+                  criteria={store.goal.criteria}
+                  criteriaOrder={store.goal.criteriaOrder}
+                  criteriaComparison={store.comparisons.criteria}
+                  prereqs={{
+                    [Steps.Goal]: isStepComplete[Steps.Goal](store),
+                    [Steps.Criteria]: isStepComplete[Steps.Criteria](store)
+                  }}
+                  dispatch={dispatch}
+                />,
               [Steps.CompareAlternatives]:
                 <></>,
               [Steps.Results]:
