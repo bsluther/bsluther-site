@@ -15,8 +15,8 @@ interface StepProps {
 const stepCva = cva(['w-36 h-24 rounded-md text-sm p-2 outline-green-400'], {
   variants: {
     complete: {
-      true: 'border-green-400',
-      false: 'border-green-400/50 bg-green-400/10'
+      true: 'border-green-400 bg-green-400/10',
+      false: 'border-neutral-400/50 bg-neutral-400/10'
     },
     active: {
       true: 'border outline',
@@ -39,7 +39,8 @@ const Step = ({ isComplete, isActive, completeText, incompleteText, step, gotoSt
       <div className={stepCva({ complete: isComplete, active: isActive })}>
         {isComplete ? completeText : incompleteText}
       </div>
-      <div className='absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 border border-green-400 bg-black rounded-full w-6 h-6 text-center'>
+      <div className={`absolute top-0 left-0 -translate-x-1/2 -translate-y-1/2 border bg-black rounded-full w-6 h-6 text-center
+        ${isComplete ? 'border-green-400' : 'border-neutral-400'}`}>
         {isComplete
           ? <CheckSvg className='text-green-400' />
           : step}

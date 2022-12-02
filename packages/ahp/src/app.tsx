@@ -2,10 +2,11 @@ import { useReducer } from 'react'
 import { ChooseGoal } from './steps/ChooseGoal'
 import { ProgressBar } from './components/ProgressBar'
 import { Steps } from './core'
-import { appReducer, findEmpty, initStore, isStepComplete } from './appReducer'
+import { appReducer, findEmpty, initStore, isStepComplete, SetCriteriaCellParams } from './appReducer'
 import { AlternativesStep } from './steps/AlternativesStep'
 import { CriteriaStep } from './steps/CriteriaStep'
 import { CompareCriteriaStep } from './steps/CompareCriteria2'
+import { CompareCriteria3 } from './steps/CompareCriteria3'
 
 
 interface StepRouterProps {
@@ -18,6 +19,15 @@ const StepRouter = ({ step, elements }: StepRouterProps) => {
 
 export const App = () => {
   const [store, dispatch] = useReducer(appReducer, {}, initStore)
+
+  const setCriteriaCell = ({x, y, rating}: SetCriteriaCellParams) => dispatch({
+    type: 'setCriteriaCell',
+    payload: {
+      x,
+      y,
+      rating
+    }
+  })
 
   return (
     <div className='text-neutral-100 w-full h-full flex items-center justify-center'>
@@ -44,7 +54,7 @@ export const App = () => {
                   dispatch={dispatch}
                 />,
               [Steps.CompareCriteria]:
-                <CompareCriteriaStep 
+                <CompareCriteria3 
                   criteria={store.goal.criteria}
                   criteriaOrder={store.goal.criteriaOrder}
                   criteriaComparison={store.comparisons.criteria}
@@ -52,7 +62,7 @@ export const App = () => {
                     [Steps.Goal]: isStepComplete[Steps.Goal](store),
                     [Steps.Criteria]: isStepComplete[Steps.Criteria](store)
                   }}
-                  dispatch={dispatch}
+                  setCriteriaCell={setCriteriaCell}
                 />,
               [Steps.CompareAlternatives]:
                 <></>,

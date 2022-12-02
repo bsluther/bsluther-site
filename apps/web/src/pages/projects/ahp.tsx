@@ -1,4 +1,5 @@
 import { App } from 'ahp'
+import { MockAltCompare } from 'ahp'
 
 const Ahp = () => {
   return (
