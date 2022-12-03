@@ -26,6 +26,7 @@
     "class-variance-authority": "^0.3.0",
     "fp-ts": "^2.13.1",
     "monocle-ts": "^2.3.13",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "zustand": "^4.1.4"
   }
 }

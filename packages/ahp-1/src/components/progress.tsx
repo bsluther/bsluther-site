@@ -1,21 +1,35 @@
 import { cva } from 'class-variance-authority'
 import { boolean } from 'fp-ts'
 import { Steps } from '../core'
+import { useAhpStore } from '../store'
 
 
 
-const stepCard = cva(['flex items-center space-x-2 w-48 h-20 rounded-l-md text-neutral-100 bg-neutral-600 p-2'])
+const stepCard = cva(['flex items-center space-x-2 w-48 h-20 rounded-l-md text-neutral-100 p-2'], {
+  variants: {
+    active: {
+      true: 'outline outline-neutral-100',
+      false: ''
+    },
+    complete: {
+      true: 'bg-green-800/75',
+      false: 'bg-neutral-600'
+    }
+  }
+})
 
 interface StepCardProps {
   caption: string
   step: Steps
-  isComplete: boolean
-  isFocused: boolean
+  isActive: boolean
 }
-const StepCard = ({ caption, step, isComplete, isFocused }: StepCardProps) => {
+const StepCard = ({ caption, step, isActive }: StepCardProps) => {
+  const isComplete = useAhpStore(state => state.isStepComplete(step))
+  const gotoStep = useAhpStore(state => state.gotoStep)
   return (
     <button
-      className={stepCard()}
+      className={stepCard({ active: isActive, complete: isComplete })}
+      onClick={() => gotoStep(step)}
     >
       <span>{step}.</span>
       <span>{caption}</span>
@@ -24,48 +38,43 @@ const StepCard = ({ caption, step, isComplete, isFocused }: StepCardProps) => {
 }
 
 interface ProgressProps {
-  currentStep: Steps
+  
 }
-export const Progress = ({ currentStep }: ProgressProps) => {
+export const Progress = ({}: ProgressProps) => {
+  const currentStep = useAhpStore(state => state.step)
 
   return (
     <nav className='w-full h-full'>
-      <ol className='w-full h-full flex flex-col justify-start items-end space-y-2 py-2'>
+      <ol className='w-full h-full flex flex-col items-end justify-evenly py-2'>
         <StepCard
           caption='Set a goal'
           step={Steps.Goal}
-          isComplete={false}
-          isFocused={false}
+          isActive={currentStep === Steps.Goal}
         />
         <StepCard
           caption='Choose options'
           step={Steps.Alternatives}
-          isComplete={false}
-          isFocused={false}
+          isActive={currentStep === Steps.Alternatives}
         />
         <StepCard
           caption='Choose criteria'
           step={Steps.Criteria}
-          isComplete={false}
-          isFocused={false}
+          isActive={currentStep === Steps.Criteria}
         />
         <StepCard
           caption='Compare criteria'
           step={Steps.CompareCriteria}
-          isComplete={false}
-          isFocused={false}
+          isActive={currentStep === Steps.CompareCriteria}
         />
         <StepCard
           caption='Compare options'
           step={Steps.CompareAlternatives}
-          isComplete={false}
-          isFocused={false}
+          isActive={currentStep === Steps.CompareAlternatives}
         />
         <StepCard
           caption='Results'
           step={Steps.Results}
-          isComplete={false}
-          isFocused={false}
+          isActive={currentStep === Steps.Results}
         />
       </ol>
     </nav>

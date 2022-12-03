@@ -9,11 +9,17 @@ export enum Steps {
 
 export interface Goal {
   id: string
+  title: string
   description: string
-  alternatives: Alternatives,
+  alternatives: Alternatives
   alternativesOrder: string[]
   criteria: Criteria
   criteriaOrder: string[]
+  updateTitle: (title: string) => void
+  updateDescription: (desc: string) => void
+  orderedAlternatives: () => Alternative[]
+  appendAlternative: (alt: Alternative) => void
+  updateAlternative: (updater: (alt: Alternative) => Alternative) => (id: string) => void
 }
 
 export type Rating = number | 'EMPTY'
@@ -31,6 +37,7 @@ export interface AlternativesComparisons {
 
 export interface Alternative {
   id: string
+  title: string
   description: string
 }
 
@@ -40,6 +47,7 @@ export interface Alternatives {
 
 export interface Criterion {
   id: string
+  title: string
   description: string
 }
 
