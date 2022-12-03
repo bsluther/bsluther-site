@@ -18,7 +18,8 @@
     "react-dom": "18.2.0",
     "ui": "workspace:*",
     "measure-ts": "workspace:*",
-    "ahp": "workspace:*"
+    "ahp-0": "workspace:*",
+    "ahp-1": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",
