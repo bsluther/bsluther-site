@@ -1,5 +1,4 @@
 import { cva } from 'class-variance-authority'
-import { boolean } from 'fp-ts'
 import { Steps } from '../core'
 import { useAhpStore } from '../store'
 
@@ -26,6 +25,7 @@ interface StepCardProps {
 const StepCard = ({ caption, step, isActive }: StepCardProps) => {
   const isComplete = useAhpStore(state => state.isStepComplete(step))
   const gotoStep = useAhpStore(state => state.gotoStep)
+
   return (
     <button
       className={stepCard({ active: isActive, complete: isComplete })}
@@ -37,10 +37,7 @@ const StepCard = ({ caption, step, isActive }: StepCardProps) => {
   )
 }
 
-interface ProgressProps {
-  
-}
-export const Progress = ({}: ProgressProps) => {
+export const Progress = () => {
   const currentStep = useAhpStore(state => state.step)
 
   return (

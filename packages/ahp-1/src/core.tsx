@@ -15,11 +15,6 @@ export interface Goal {
   alternativesOrder: string[]
   criteria: Criteria
   criteriaOrder: string[]
-  updateTitle: (title: string) => void
-  updateDescription: (desc: string) => void
-  orderedAlternatives: () => Alternative[]
-  appendAlternative: (alt: Alternative) => void
-  updateAlternative: (updater: (alt: Alternative) => Alternative) => (id: string) => void
 }
 
 export type Rating = number | 'EMPTY'

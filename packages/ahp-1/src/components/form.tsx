@@ -43,7 +43,11 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
           spellCheck={false}
           id='title'
           value={title}
-          onChange={e => updateTitle(e.target.value)}
+          onChange={e => {
+            if (e.target.value.length < 21) {
+              updateTitle(e.target.value)
+            }
+          }}
         />
       </div>
       <div className='flex items-center space-x-2'>

@@ -1,6 +1,9 @@
 import { Progress } from './components/progress'
 import { Steps } from './core'
 import { Alternatives } from './steps/alternatives'
+import { CompareAlternatives } from './steps/compareAlternatives'
+import { CompareCriteria } from './steps/compareCriteria'
+import { Criteria } from './steps/criteria'
 import { Goal } from './steps/goal'
 import { useAhpStore } from './store'
 
@@ -14,11 +17,11 @@ const StepRouter = ({ step, elements }: StepRouterProps) => {
 
 export const App = () => {
   const step = useAhpStore(state => state.step)
+  const store = useAhpStore()
+  console.log(store.comparisons)
 
   return (
     <div className='w-full h-full bg-neutral-400 text-neutral-100 flex'>
-
-      {/* <div className='w-1/3 bg-neutral-800 h-full'></div> */}
 
       <div className='grow h-full'>
         <StepRouter
@@ -26,9 +29,9 @@ export const App = () => {
           elements={{
             [Steps.Goal]: <Goal />,
             [Steps.Alternatives]: <Alternatives />,
-            [Steps.Criteria]: <Goal />,
-            [Steps.CompareCriteria]: <Goal />,
-            [Steps.CompareAlternatives]: <Goal />,
+            [Steps.Criteria]: <Criteria />,
+            [Steps.CompareCriteria]: <CompareCriteria />,
+            [Steps.CompareAlternatives]: <CompareAlternatives />,
             [Steps.Results]: <Goal />,
           }}
         />
