@@ -5,6 +5,7 @@ import { CompareAlternatives } from './steps/compareAlternatives'
 import { CompareCriteria } from './steps/compareCriteria'
 import { Criteria } from './steps/criteria'
 import { Goal } from './steps/goal'
+import { Results } from './steps/results'
 import { useAhpStore } from './store'
 
 interface StepRouterProps {
@@ -18,7 +19,7 @@ const StepRouter = ({ step, elements }: StepRouterProps) => {
 export const App = () => {
   const step = useAhpStore(state => state.step)
   const store = useAhpStore()
-  console.log(store.comparisons)
+  console.log('STORE', store)
 
   return (
     <div className='w-full h-full bg-neutral-400 text-neutral-100 flex'>
@@ -32,7 +33,7 @@ export const App = () => {
             [Steps.Criteria]: <Criteria />,
             [Steps.CompareCriteria]: <CompareCriteria />,
             [Steps.CompareAlternatives]: <CompareAlternatives />,
-            [Steps.Results]: <Goal />,
+            [Steps.Results]: <Results />,
           }}
         />
       </div>

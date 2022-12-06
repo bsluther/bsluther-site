@@ -4,12 +4,10 @@ import { Alternative, Comparisons, Criterion, Goal, Matrix, Steps } from './core
 import { fromTraversable, Lens } from 'monocle-ts'
 import { pipe } from 'fp-ts/lib/function'
 import { append } from 'fp-ts/lib/Array'
-import { createMatrix, incrementDimension, setCell, setCellAndReciprocal, SetCellParams } from './matrix'
-import { Traversable } from 'fp-ts/lib/ReadonlyRecord'
+import { areAltsComplete, createMatrix, incrementDimension, isComplete, RateAlternativesParams, setCellAndReciprocal, SetCellParams } from './matrix'
 import { getTraversable } from 'fp-ts/lib/Record'
-import { string } from 'fp-ts'
 import { Ord } from 'fp-ts/lib/string'
-import { alt } from 'fp-ts/lib/pipeable'
+import { nytStore } from './data'
 
 const lens = Lens.fromPath<AhpStore>()
 
@@ -71,6 +69,12 @@ const rateCriteria = ({ x, y, rating }: SetCellParams) => (state: AhpStore) =>
     criteriaComparisonLens.modify(setCellAndReciprocal({ x, y, rating }))
   )
 
+const rateAlternatives = ({ x, y, z, rating }: RateAlternativesParams) => (state: AhpStore) =>
+    pipe(
+      state,
+      alternativeComparisonLens(z).modify(setCellAndReciprocal({ x, y, rating }))
+    )
+
 export interface AhpStore {
   goal: GoalSlice
   comparisons: ComparisonsSlice
@@ -92,19 +96,16 @@ interface GoalSlice extends Goal {
 
 interface ComparisonsSlice extends Comparisons {
   rateCriteria: (rating: SetCellParams) => void
+  rateAlternatives: (rating: RateAlternativesParams) => void
 }
+
+
 
 export const useAhpStore = create<AhpStore>()((set, get) => ({
   goal: {
-    id: uuid(),
-    title: '',
-    description: '',
-    alternatives: {},
-    alternativesOrder: [],
-    criteria: {},
-    criteriaOrder: [],
+    ...nytStore.goal,
     updateTitle: (title: string) => 
-      title.length > 15 ? null : set(goalTitleLens.set(title)),
+      title.length > 20 ? null : set(goalTitleLens.set(title)),
     updateDescription: (desc: string) => 
       desc.length > 150 ? null : set(goalDescriptionLens.set(desc)),
     orderedAlternatives: () =>
@@ -119,11 +120,11 @@ export const useAhpStore = create<AhpStore>()((set, get) => ({
       set(state => updateCriterion(updater)(id)(state))
   },
   comparisons: {
-    id: uuid(),
-    criteria: [] as Matrix,
-    alternatives: {} as Record<string, Matrix>,
+    ...nytStore.comparisons,
     rateCriteria: (setCellParams: SetCellParams) =>
-      set(rateCriteria(setCellParams))
+      set(rateCriteria(setCellParams)),
+    rateAlternatives: (rateAltsParams: RateAlternativesParams) =>
+      set(rateAlternatives(rateAltsParams))
   },
   step: Steps.Goal,
   gotoStep: (step: Steps) => set(stepLens.set(step)),
@@ -131,8 +132,8 @@ export const useAhpStore = create<AhpStore>()((set, get) => ({
     [Steps.Goal]: get().goal.title.length > 2,
     [Steps.Alternatives]: get().goal.alternativesOrder.length > 1,
     [Steps.Criteria]: get().goal.criteriaOrder.length > 1,
-    [Steps.CompareCriteria]: false,
-    [Steps.CompareAlternatives]: false,
+    [Steps.CompareCriteria]: isComplete(get().comparisons.criteria),
+    [Steps.CompareAlternatives]: areAltsComplete(get().comparisons.alternatives),
     [Steps.Results]: false
   }[step])
 }))

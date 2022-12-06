@@ -1,12 +1,13 @@
-import { useState } from 'react'
-import { Matrix } from '../core'
-import { findEmpty, getCell } from '../matrix'
+import { useEffect, useState } from 'react'
+import { Matrix, Steps } from '../core'
+import { areAltsComplete, findEmpty, getCell, isComplete } from '../matrix'
 import { useAhpStore } from '../store'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/lib/function'
 import { CardColumn } from '../components/cardColumn'
 import { Versus } from '../components/versus'
 import { Criteria } from './criteria'
+import { NextButton } from '../components/nextButton'
 
 interface Use3dMatrixPositionArgs {
   xLegend: string[]
@@ -101,6 +102,8 @@ const use3dMatrixPosition = ({ xLegend, yLegend, zLegend, matrix }: Use3dMatrixP
 
 }
 
+
+
 export const CompareAlternatives = () => {
   const {
     alternatives,
@@ -109,7 +112,9 @@ export const CompareAlternatives = () => {
     orderedCriteria,
     alternativesOrder, 
     alternativeComparisons, 
-    criteriaOrder 
+    criteriaOrder ,
+    rateAlternatives,
+    gotoStep
   } = useAhpStore(state => ({
     alternatives: state.goal.alternatives,
     criteria: state.goal.criteria,
@@ -117,7 +122,9 @@ export const CompareAlternatives = () => {
     orderedCriteria: state.goal.orderedCriteria(),
     alternativesOrder: state.goal.alternativesOrder,
     alternativeComparisons: state.comparisons.alternatives,
-    criteriaOrder: state.goal.criteriaOrder
+    criteriaOrder: state.goal.criteriaOrder,
+    rateAlternatives: state.comparisons.rateAlternatives,
+    gotoStep: state.gotoStep
   }))
   const matrix = criteriaOrder.map(crtId => alternativeComparisons[crtId])
   const { x, y, z, xIndex, yIndex, zIndex, compareNextEmpty, compare, pickZ } = use3dMatrixPosition({
@@ -127,6 +134,9 @@ export const CompareAlternatives = () => {
     matrix
   })
 
+  useEffect(() => {
+    compareNextEmpty()
+  }, [])
   
 
   return (
@@ -146,20 +156,39 @@ export const CompareAlternatives = () => {
         allowAppend={false}
       />
       <div className='grow flex flex-col items-center justify-center'>
-        {z && <span className='text-black'>Criteria: {criteria[z].title}</span>}
+        {z && <span className='text-black'>{criteria[z].title} comparison</span>}
         {x && y && z && 
           <Versus 
             left={x && alternatives[x].title} 
             right={y && alternatives[y].title}
             rating={getCell(xIndex, yIndex, alternativeComparisons[z])}
-            // rate={(rating) => rateCriteria({ x: xIndex, y: yIndex, rating })}
+            rate={(rating) => rateAlternatives({ x: xIndex, y: yIndex, z, rating })}
           />
         }
+        <NextButton 
+          onClick={() => {
+            if (x && y && z) {
+              const currentIsEmpty = pipe(
+                getCell(xIndex, yIndex, alternativeComparisons[z]),
+                O.fold(
+                  () => false,
+                  rating => rating === 'EMPTY'
+                )
+              )
+              if (currentIsEmpty) {
+                rateAlternatives({ x: xIndex, y: yIndex, z, rating: 0})
+              }
+            }
+
+            if (areAltsComplete(alternativeComparisons)) {
+              gotoStep(Steps.Results)
+            } else {
+              compareNextEmpty()
+            }
+          }} 
+        />
         <div className='h-1/4 w-1/4' />
       </div>
-      <button
-        onClick={compareNextEmpty}
-      >Next</button>
     </div>
   )
 }

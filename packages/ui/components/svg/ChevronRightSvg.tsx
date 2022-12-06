@@ -9,7 +9,7 @@ export const ChevronRightSvg = (props: JSX.IntrinsicElements['svg']) =>
     <path 
       strokeLinecap="round" 
       strokeLinejoin="round" 
-      strokeWidth={2} 
+      strokeWidth={props.strokeWidth ?? 2} 
       d="M9 5l7 7-7 7" 
     />
   </svg>

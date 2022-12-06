@@ -1,20 +1,33 @@
 import { useEffect } from 'react'
 import { CardColumn } from '../components/cardColumn'
+import { NextButton } from '../components/nextButton'
 import { Versus } from '../components/versus'
 import { Steps } from '../core'
-import { getCell } from '../matrix'
+import { getCell, isComplete } from '../matrix'
 import { useAhpStore } from '../store'
 import { useMatrixPosition } from '../useMatrixPosition'
+import * as O from 'fp-ts/Option'
+import { pipe } from 'fp-ts/lib/function'
 
 export const CompareCriteria = () => {
-  const { alternatives, criteria, orderedCriteria, criteriaOrder, criteriaStepComplete, criteriaComparison, rateCriteria } = useAhpStore(state => ({
+  const { 
+    alternatives, 
+    criteria, 
+    orderedCriteria, 
+    criteriaOrder, 
+    criteriaStepComplete, 
+    criteriaComparison, 
+    rateCriteria,
+    gotoStep
+  } = useAhpStore(state => ({
     alternatives: state.goal.orderedAlternatives(),
     criteria: state.goal.criteria,
     orderedCriteria: state.goal.orderedCriteria(),
     criteriaOrder: state.goal.criteriaOrder,
     criteriaStepComplete: state.isStepComplete(Steps.Criteria),
     criteriaComparison: state.comparisons.criteria,
-    rateCriteria: state.comparisons.rateCriteria
+    rateCriteria: state.comparisons.rateCriteria,
+    gotoStep: state.gotoStep
   }))
   const { x, y, xIndex, yIndex, compare, compareNextEmpty } = useMatrixPosition(criteriaOrder, criteriaComparison)
   
@@ -49,10 +62,26 @@ export const CompareCriteria = () => {
           left={x && criteria[x].title} 
           right={y && criteria[y].title}
           rating={getCell(xIndex, yIndex, criteriaComparison)}
-          // rating={criteriaComparison[yIndex][xIndex]}
           rate={(rating) => rateCriteria({ x: xIndex, y: yIndex, rating })}
         />
-        <div className='h-1/4 w-1/4' />
+        <div className='h-1/4 w-1/4' />1
+        <NextButton onClick={() => {
+          const currentIsEmpty = pipe(
+            getCell(xIndex, yIndex, criteriaComparison),
+            O.fold(
+              () => false,
+              rating => rating === 'EMPTY'
+            )
+          )
+          if (currentIsEmpty) {
+            rateCriteria({ x: xIndex, y: yIndex, rating: 0 })
+          }
+          if (isComplete(criteriaComparison)) {
+            gotoStep(Steps.CompareAlternatives)
+          } else {
+            compareNextEmpty()
+          }
+        }}/>
       </div>
     </div>
   )

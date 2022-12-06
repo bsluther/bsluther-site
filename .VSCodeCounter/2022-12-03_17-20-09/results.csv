@@ -1,0 +1,16 @@
+"filename", "language", "TypeScript React", "TypeScript", "comment", "blank", "total"
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/app.tsx", "TypeScript React", 40, 0, 0, 6, 46
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/components/cardColumn.tsx", "TypeScript React", 53, 0, 2, 3, 58
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/components/form.tsx", "TypeScript React", 70, 0, 0, 3, 73
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/components/progress.tsx", "TypeScript React", 72, 0, 0, 7, 79
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/components/versus.tsx", "TypeScript React", 41, 0, 0, 6, 47
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/core.tsx", "TypeScript React", 44, 0, 0, 9, 53
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/matrix.ts", "TypeScript", 0, 67, 0, 12, 79
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/steps/alternatives.tsx", "TypeScript React", 64, 0, 0, 5, 69
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/steps/compareAlternatives.tsx", "TypeScript React", 147, 0, 2, 16, 165
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/steps/compareCriteria.tsx", "TypeScript React", 53, 0, 1, 5, 59
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/steps/criteria.tsx", "TypeScript React", 72, 0, 0, 4, 76
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/steps/goal.tsx", "TypeScript React", 27, 0, 0, 2, 29
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/store.tsx", "TypeScript React", 121, 0, 0, 17, 138
+"/Users/bsluther/development/bsluther/packages/ahp-1/src/useMatrixPosition.tsx", "TypeScript React", 60, 0, 0, 5, 65
+"Total", "-", 864, 67, 5, 100, 1036

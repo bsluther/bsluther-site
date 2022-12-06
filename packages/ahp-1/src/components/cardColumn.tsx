@@ -13,11 +13,11 @@ const card = cva(['w-48 h-8 text-center bg-neutral-600 rounded-sm px-2 py-1 curs
 })
 interface CardProps {
   title: string
-  handleClick: () => void
-  isFocused: boolean
+  handleClick?: () => void
+  isFocused?: boolean
   // handleBlur: () => void
 }
-export const Card = ({ title, handleClick, isFocused }: CardProps) => {
+export const Card = ({ title, handleClick = () => null, isFocused = false }: CardProps) => {
   const ref = useRef<HTMLDivElement>(null)
   // useOutsideClick([ref], handleBlur)
   return (
