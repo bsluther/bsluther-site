@@ -30,6 +30,8 @@ export const removeIndex = (ix: number) => (mtx: Matrix) =>
 
 export const findEmpty = (mtx: Matrix) => {
   let result
+  // i is countings rows eg y
+  // k is counting columns eg x
   for (let i = 0; i < mtx.length; i++) {
     for (let k = 0; k < mtx[i].length; k++) {
       if (mtx[i][k] === 'EMPTY') {
@@ -75,6 +77,14 @@ export const setCell = ({ x, y, rating}: SetCellParams) => (mtx: Matrix) => {
                               (y)
                               (mtx)
 }
+
+// export const setCell = ({ x, y, rating }: SetCellParams) => (mtx: Matrix) => {
+//   let result = [...mtx]
+//   const row = [...mtx[y]]
+//   row[x] = rating
+//   result[y] = row
+//   return result
+// }
 
 export const setCellAndReciprocal = ({ x, y, rating }: SetCellParams) => (mtx: Matrix) =>
   pipe(

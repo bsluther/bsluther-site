@@ -1,4 +1,5 @@
 import { Progress } from './components/progress'
+import { Scorebar } from './components/scorebar'
 import { Steps } from './core'
 import { Alternatives } from './steps/alternatives'
 import { CompareAlternatives } from './steps/compareAlternatives'
@@ -28,7 +29,9 @@ export const App = () => {
         <StepRouter
           step={step}
           elements={{
-            [Steps.Goal]: <Goal />,
+            [Steps.Goal]: <div className='flex w-full h-full items-center justify-center'>
+              <Scorebar rating={3} />
+            </div>,
             [Steps.Alternatives]: <Alternatives />,
             [Steps.Criteria]: <Criteria />,
             [Steps.CompareCriteria]: <CompareCriteria />,

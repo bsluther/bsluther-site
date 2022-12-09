@@ -3,6 +3,7 @@ import { Rating } from '../core'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/lib/function'
 import { rebase } from '../matrix'
+import { Range } from './range'
 
 // Left is <ENGLISH> Right
 const ratingToEnglish = (rating: number) => ({
@@ -31,28 +32,34 @@ const explainRating = (left: string, right: string, rating: Rating) => {
 }
 
 interface VersusProps {
-  left: string | null
-  right: string | null
+  x: string | null
+  y: string | null
   rating: O.Option<Rating>
   rate: (num: number) => void
 }
 
 const contestant = cva(['w-32 h-20 bg-neutral-600 flex items-center justify-center'])
 
+const ratingToString = (rating: Rating) => {
+  if (rating === 'EMPTY') return 'empty'
+  if (rating === 0) return '1'
+  if (rating < 0) return (rating - 1).toString()
+  if (rating > 0) return (rating + 1).toString()
+}
 
-
-export const Versus = ({ left, right, rate, rating }: VersusProps) => {
-  console.log('rating', rating)
+export const Versus = ({ x, y, rate, rating }: VersusProps) => {
+  // console.log('rating', rating)
   return (
     <form 
       className='flex flex-col items-center space-y-4'
       onSubmit={e => e.preventDefault()}
     >
       <div className='flex items-center space-x-4'>
-        <span className={contestant()}>{left}</span>
+        <span className={contestant()}>{y}</span>
         <span className='text-red-700'>vs.</span>
-        <span className={contestant()}>{right}</span>
+        <span className={contestant()}>{x}</span>
       </div>
+      <Range />
       {pipe(
         rating, 
         O.fold(
@@ -69,14 +76,14 @@ export const Versus = ({ left, right, rate, rating }: VersusProps) => {
             />
         ))}
       <div className='flex space-x-2'>
-          {left && right && pipe(
+          {x && y && pipe(
             rating,
             O.fold(
               () => <span>unrated</span>,
               rating => 
                 <div className='flex flex-col items-center text-neutral-800'>
-                  <span>Rating: {rating === 'EMPTY' ? 'empty' : rebase(rating)}</span>
-                  <span>{explainRating(left, right, rating)}</span>
+                  <span>Rating: {rating === 'EMPTY' ? 'empty' : ratingToString(rating)}</span>
+                  <span>{explainRating(y, x, rating)}</span>
                 </div>
             )
           )}

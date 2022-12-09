@@ -1,6 +1,6 @@
 import { Rating } from '../core'
 import * as O from 'fp-ts/Option'
-import { identity, pipe } from 'fp-ts/lib/function'
+import { pipe } from 'fp-ts/lib/function'
 
 const CELL_SIZE = 'w-16 h-16'
 

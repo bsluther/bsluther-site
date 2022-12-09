@@ -7,7 +7,7 @@ import { append } from 'fp-ts/lib/Array'
 import { areAltsComplete, createMatrix, incrementDimension, isComplete, RateAlternativesParams, setCellAndReciprocal, SetCellParams } from './matrix'
 import { getTraversable } from 'fp-ts/lib/Record'
 import { Ord } from 'fp-ts/lib/string'
-import { nytStore } from './data'
+import { nytStore, blankStore, catNameStore, secondNytStore, workStore } from './data'
 
 const lens = Lens.fromPath<AhpStore>()
 
@@ -69,12 +69,13 @@ const rateCriteria = ({ x, y, rating }: SetCellParams) => (state: AhpStore) =>
     criteriaComparisonLens.modify(setCellAndReciprocal({ x, y, rating }))
   )
 
-const rateAlternatives = ({ x, y, z, rating }: RateAlternativesParams) => (state: AhpStore) =>
-    pipe(
+const rateAlternatives = ({ x, y, z, rating }: RateAlternativesParams) => (state: AhpStore) => {
+    console.log(`alternative rated: x: ${x}, y: ${y}, z: ${z}, rating: ${rating}`)
+    return pipe(
       state,
-      alternativeComparisonLens(z).modify(setCellAndReciprocal({ x, y, rating }))
+      alternativeComparisonLens(z).modify(setCellAndReciprocal({ x: x, y, rating: rating }))
     )
-
+}
 export interface AhpStore {
   goal: GoalSlice
   comparisons: ComparisonsSlice
@@ -103,7 +104,7 @@ interface ComparisonsSlice extends Comparisons {
 
 export const useAhpStore = create<AhpStore>()((set, get) => ({
   goal: {
-    ...nytStore.goal,
+    ...workStore.goal,
     updateTitle: (title: string) => 
       title.length > 20 ? null : set(goalTitleLens.set(title)),
     updateDescription: (desc: string) => 
@@ -120,7 +121,7 @@ export const useAhpStore = create<AhpStore>()((set, get) => ({
       set(state => updateCriterion(updater)(id)(state))
   },
   comparisons: {
-    ...nytStore.comparisons,
+    ...workStore.comparisons,
     rateCriteria: (setCellParams: SetCellParams) =>
       set(rateCriteria(setCellParams)),
     rateAlternatives: (rateAltsParams: RateAlternativesParams) =>

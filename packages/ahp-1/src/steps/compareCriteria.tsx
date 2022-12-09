@@ -31,7 +31,6 @@ export const CompareCriteria = () => {
   }))
   const { x, y, xIndex, yIndex, compare, compareNextEmpty } = useMatrixPosition(criteriaOrder, criteriaComparison)
   
-  console.log(criteriaComparison)
 
   if (!criteriaStepComplete) {
     return <div>You must chose 2 or more criteria before you can compare them.</div> 
@@ -59,12 +58,12 @@ export const CompareCriteria = () => {
       />
       <div className='grow flex flex-col items-center justify-center'>
         <Versus 
-          left={x && criteria[x].title} 
-          right={y && criteria[y].title}
+          x={x && criteria[x].title} 
+          y={y && criteria[y].title}
           rating={getCell(xIndex, yIndex, criteriaComparison)}
           rate={(rating) => rateCriteria({ x: xIndex, y: yIndex, rating })}
         />
-        <div className='h-1/4 w-1/4' />1
+        <div className='h-1/4 w-1/4' />
         <NextButton onClick={() => {
           const currentIsEmpty = pipe(
             getCell(xIndex, yIndex, criteriaComparison),

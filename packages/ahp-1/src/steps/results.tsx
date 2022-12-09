@@ -130,9 +130,9 @@ export const Results = () => {
 
   const incomplete = incompleteSteps(isStepComplete)
 
-  if (incomplete.length > 0) {
-    return <Incomplete incomplete={incomplete} />
-  }
+  // if (incomplete.length > 0) {
+  //   return <Incomplete incomplete={incomplete} />
+  // }
 
   const preppedCritiera = prepMtx(criteriaComparison)
   const criteriaWeights = pipe(

@@ -138,7 +138,7 @@ export const CompareAlternatives = () => {
     compareNextEmpty()
   }, [])
   
-
+  console.log('alternativeComparison:', alternativeComparisons[z])
   return (
     <div className='w-full h-full flex'>
       <CardColumn 
@@ -159,8 +159,8 @@ export const CompareAlternatives = () => {
         {z && <span className='text-black'>{criteria[z].title} comparison</span>}
         {x && y && z && 
           <Versus 
-            left={x && alternatives[x].title} 
-            right={y && alternatives[y].title}
+            x={x && alternatives[x].title} 
+            y={y && alternatives[y].title}
             rating={getCell(xIndex, yIndex, alternativeComparisons[z])}
             rate={(rating) => rateAlternatives({ x: xIndex, y: yIndex, z, rating })}
           />
