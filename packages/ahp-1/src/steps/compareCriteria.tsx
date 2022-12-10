@@ -1,13 +1,13 @@
 import { useEffect } from 'react'
 import { CardColumn } from '../components/cardColumn'
 import { NextButton } from '../components/nextButton'
-import { Versus } from '../components/versus'
 import { Steps } from '../core'
 import { getCell, isComplete } from '../matrix'
 import { useAhpStore } from '../store'
 import { useMatrixPosition } from '../useMatrixPosition'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/lib/function'
+import { Versus2 } from '../components/versus2'
 
 export const CompareCriteria = () => {
   const { 
@@ -56,14 +56,21 @@ export const CompareCriteria = () => {
         setFocus={(id: string) => null}
         allowAppend={false}
       />
-      <div className='grow flex flex-col items-center justify-center'>
-        <Versus 
-          x={x && criteria[x].title} 
-          y={y && criteria[y].title}
+      <div className='grow flex flex-col items-center justify-center space-y-8'>
+        <Versus2 
+          against={pipe(
+            O.of((x: string) => criteria[x].title),
+            O.ap(O.fromNullable(x)),
+          )} 
+          to={pipe(
+            O.fromNullable(y),
+            O.map((y: string) => criteria[y].title)
+          )}
           rating={getCell(xIndex, yIndex, criteriaComparison)}
-          rate={(rating) => rateCriteria({ x: xIndex, y: yIndex, rating })}
+          rate={(rating) => rateCriteria({ against: xIndex, to: yIndex, rating })}
+          round={Steps.CompareCriteria}
+          criteria={O.none}
         />
-        <div className='h-1/4 w-1/4' />
         <NextButton onClick={() => {
           const currentIsEmpty = pipe(
             getCell(xIndex, yIndex, criteriaComparison),
@@ -73,7 +80,7 @@ export const CompareCriteria = () => {
             )
           )
           if (currentIsEmpty) {
-            rateCriteria({ x: xIndex, y: yIndex, rating: 0 })
+            rateCriteria({ against: xIndex, to: yIndex, rating: 0 })
           }
           if (isComplete(criteriaComparison)) {
             gotoStep(Steps.CompareAlternatives)

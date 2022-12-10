@@ -63,19 +63,57 @@ const updateCriterion = (updater: (crt: Criterion) => Criterion) => (id: string)
     criterionLens(id).modify(updater)
   )
 
-const rateCriteria = ({ x, y, rating }: SetCellParams) => (state: AhpStore) => 
-  pipe(
+const rateCriteria = ({ x, y, rating }: SetCellParams) => (state: AhpStore) => {
+  console.log(`criteria rated: x: ${x}, y: ${y}, rating: ${rating}`)
+  return pipe(
     state,
     criteriaComparisonLens.modify(setCellAndReciprocal({ x, y, rating }))
   )
+}
+interface RateCriteria2Params {
+  to: number
+  against: number
+  rating: number
+}
+const rateCriteria2 = ({ to, against, rating}: RateCriteria2Params) => (state: AhpStore) => {
+  console.log(`criteria rated: against: ${against}, to: ${to} rating: ${rating}`)
+  return pipe(
+    state,
+    criteriaComparisonLens.modify(setCellAndReciprocal({
+      x: against,
+      y: to,
+      rating
+    }))
+  )
+}
 
+// in practice this acts as a rating for y, against x
 const rateAlternatives = ({ x, y, z, rating }: RateAlternativesParams) => (state: AhpStore) => {
     console.log(`alternative rated: x: ${x}, y: ${y}, z: ${z}, rating: ${rating}`)
     return pipe(
       state,
-      alternativeComparisonLens(z).modify(setCellAndReciprocal({ x: x, y, rating: rating }))
+      alternativeComparisonLens(z).modify(setCellAndReciprocal({ x, y, rating: rating }))
     )
 }
+
+interface RateAlternatives2Params {
+  against: number
+  to: number
+  z: string
+  rating: number
+}
+const rateAlternatives2 = ({ against, to, z, rating }: RateAlternatives2Params) => (state: AhpStore) => {
+  console.log(`alternative rated: against: ${against}, to: ${to}, z: ${z}, rating: ${rating}`)
+  return pipe(
+    state,
+    alternativeComparisonLens(z).modify(setCellAndReciprocal({ 
+      x: against, 
+      y: to, 
+      rating
+    }))
+  )
+}
+
 export interface AhpStore {
   goal: GoalSlice
   comparisons: ComparisonsSlice
@@ -96,8 +134,8 @@ interface GoalSlice extends Goal {
 }
 
 interface ComparisonsSlice extends Comparisons {
-  rateCriteria: (rating: SetCellParams) => void
-  rateAlternatives: (rating: RateAlternativesParams) => void
+  rateCriteria: (ratingParams: RateCriteria2Params) => void
+  rateAlternatives: (ratingParams: RateAlternatives2Params) => void
 }
 
 
@@ -122,10 +160,10 @@ export const useAhpStore = create<AhpStore>()((set, get) => ({
   },
   comparisons: {
     ...workStore.comparisons,
-    rateCriteria: (setCellParams: SetCellParams) =>
-      set(rateCriteria(setCellParams)),
-    rateAlternatives: (rateAltsParams: RateAlternativesParams) =>
-      set(rateAlternatives(rateAltsParams))
+    rateCriteria: (rateCriteriaParams: RateCriteria2Params) =>
+      set(rateCriteria2(rateCriteriaParams)),
+    rateAlternatives: (rateAltsParams: RateAlternatives2Params) =>
+      set(rateAlternatives2(rateAltsParams))
   },
   step: Steps.Goal,
   gotoStep: (step: Steps) => set(stepLens.set(step)),

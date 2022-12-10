@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
 import { Matrix, Steps } from '../core'
-import { areAltsComplete, findEmpty, getCell, isComplete } from '../matrix'
+import { areAltsComplete, findEmpty, getCell } from '../matrix'
 import { useAhpStore } from '../store'
 import * as O from 'fp-ts/Option'
 import { pipe } from 'fp-ts/lib/function'
 import { CardColumn } from '../components/cardColumn'
-import { Versus } from '../components/versus'
-import { Criteria } from './criteria'
 import { NextButton } from '../components/nextButton'
+import { Versus2 } from '../components/versus2'
 
 interface Use3dMatrixPositionArgs {
   xLegend: string[]
@@ -138,7 +137,7 @@ export const CompareAlternatives = () => {
     compareNextEmpty()
   }, [])
   
-  console.log('alternativeComparison:', alternativeComparisons[z])
+  // console.log('alternativeComparison:', alternativeComparisons[z])
   return (
     <div className='w-full h-full flex'>
       <CardColumn 
@@ -155,16 +154,30 @@ export const CompareAlternatives = () => {
         setFocus={(id: string) => null}
         allowAppend={false}
       />
-      <div className='grow flex flex-col items-center justify-center'>
-        {z && <span className='text-black'>{criteria[z].title} comparison</span>}
-        {x && y && z && 
-          <Versus 
-            x={x && alternatives[x].title} 
-            y={y && alternatives[y].title}
-            rating={getCell(xIndex, yIndex, alternativeComparisons[z])}
-            rate={(rating) => rateAlternatives({ x: xIndex, y: yIndex, z, rating })}
-          />
-        }
+      <div className='grow flex flex-col items-center justify-center space-y-8'>
+        <Versus2
+          against={pipe(
+            O.fromNullable(x),
+            O.map((x: string) => alternatives[x].title)
+          )} 
+          to={pipe(
+            O.fromNullable(y),
+            O.map((y: string) => alternatives[y].title)
+          )}
+          rating={pipe(
+            O.fromNullable(z),
+            O.chain(z => getCell(xIndex, yIndex, alternativeComparisons[z]))
+          )}
+          rate={rating => 
+            z
+              ? rateAlternatives({ against: xIndex, to: yIndex, z, rating})
+              : null}
+          round={Steps.CompareAlternatives}
+          criteria={pipe(
+            O.fromNullable(z),
+            O.map(crtId => criteria[crtId].title)
+          )}
+        />
         <NextButton 
           onClick={() => {
             if (x && y && z) {
@@ -176,7 +189,7 @@ export const CompareAlternatives = () => {
                 )
               )
               if (currentIsEmpty) {
-                rateAlternatives({ x: xIndex, y: yIndex, z, rating: 0})
+                rateAlternatives({ against: xIndex, to: yIndex, z, rating: 0})
               }
             }
 
@@ -187,7 +200,6 @@ export const CompareAlternatives = () => {
             }
           }} 
         />
-        <div className='h-1/4 w-1/4' />
       </div>
     </div>
   )

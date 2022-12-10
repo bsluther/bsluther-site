@@ -29,9 +29,7 @@ export const App = () => {
         <StepRouter
           step={step}
           elements={{
-            [Steps.Goal]: <div className='flex w-full h-full items-center justify-center'>
-              <Scorebar rating={3} />
-            </div>,
+            [Steps.Goal]: <Goal />,
             [Steps.Alternatives]: <Alternatives />,
             [Steps.Criteria]: <Criteria />,
             [Steps.CompareCriteria]: <CompareCriteria />,
