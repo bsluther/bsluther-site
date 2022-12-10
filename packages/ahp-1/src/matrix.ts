@@ -261,7 +261,7 @@ export const transpose = (mtx: number[][]) => {
 
 export const matrixProduct = (A: number[][]) => (B: number[][]): E.Either<string, number[]> => {
   // should check if they are matrices
-  // should check if they have consistent order
+  // should check if they have consistent order (eg length)
   console.log('A: ', A)
   console.log('B: ', B)
   const n = A[0].length

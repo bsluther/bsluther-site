@@ -7,6 +7,7 @@ import { CompareCriteria } from './steps/compareCriteria'
 import { Criteria } from './steps/criteria'
 import { Goal } from './steps/goal'
 import { Results } from './steps/results'
+import { Results2 } from './steps/results2'
 import { useAhpStore } from './store'
 
 interface StepRouterProps {
@@ -34,7 +35,7 @@ export const App = () => {
             [Steps.Criteria]: <Criteria />,
             [Steps.CompareCriteria]: <CompareCriteria />,
             [Steps.CompareAlternatives]: <CompareAlternatives />,
-            [Steps.Results]: <Results />,
+            [Steps.Results]: <Results2 />,
           }}
         />
       </div>

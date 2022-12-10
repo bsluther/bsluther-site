@@ -10,16 +10,16 @@
   },
   "dependencies": {
     "@next/font": "^13.0.3",
+    "ahp-0": "workspace:*",
+    "ahp-1": "workspace:*",
     "class-variance-authority": "^0.3.0",
     "config": "workspace:*",
-    "next": "13.0.0",
+    "measure-ts": "workspace:*",
+    "next": "13.0.6",
     "next-transpile-modules": "^10.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "ui": "workspace:*",
-    "measure-ts": "workspace:*",
-    "ahp-0": "workspace:*",
-    "ahp-1": "workspace:*"
+    "ui": "workspace:*"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0",

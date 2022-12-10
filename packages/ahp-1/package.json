@@ -8,6 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/uuid": "^8.3.4",
@@ -24,6 +25,7 @@
   "license": "ISC",
   "dependencies": {
     "class-variance-authority": "^0.3.0",
+    "d3": "^7.7.0",
     "fp-ts": "^2.13.1",
     "monocle-ts": "^2.3.13",
     "uuid": "^9.0.0",
