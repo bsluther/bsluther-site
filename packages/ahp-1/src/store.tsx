@@ -120,6 +120,8 @@ export interface AhpStore {
   step: Steps
   gotoStep: (step: Steps) => void
   isStepComplete: (step: Steps) => boolean
+  loadNytData: () => void
+  loadBriansData: () => void
 }
 
 interface GoalSlice extends Goal {
@@ -142,7 +144,7 @@ interface ComparisonsSlice extends Comparisons {
 
 export const useAhpStore = create<AhpStore>()((set, get) => ({
   goal: {
-    ...workStore.goal,
+    ...blankStore.goal,
     updateTitle: (title: string) => 
       title.length > 20 ? null : set(goalTitleLens.set(title)),
     updateDescription: (desc: string) => 
@@ -159,7 +161,7 @@ export const useAhpStore = create<AhpStore>()((set, get) => ({
       set(state => updateCriterion(updater)(id)(state))
   },
   comparisons: {
-    ...workStore.comparisons,
+    ...blankStore.comparisons,
     rateCriteria: (rateCriteriaParams: RateCriteria2Params) =>
       set(rateCriteria2(rateCriteriaParams)),
     rateAlternatives: (rateAltsParams: RateAlternatives2Params) =>
@@ -174,5 +176,27 @@ export const useAhpStore = create<AhpStore>()((set, get) => ({
     [Steps.CompareCriteria]: isComplete(get().comparisons.criteria),
     [Steps.CompareAlternatives]: areAltsComplete(get().comparisons.alternatives),
     [Steps.Results]: false
-  }[step])
+  }[step]),
+  loadNytData: () => set({
+    ...get(),
+    goal: {
+      ...get().goal,
+      ...secondNytStore.goal
+    },
+    comparisons: {
+      ...get().comparisons,
+      ...secondNytStore.comparisons,
+    }
+  }),
+  loadBriansData: () => set({
+    ...get(),
+    goal: {
+      ...get().goal,
+      ...workStore.goal
+    },
+    comparisons: {
+      ...get().comparisons,
+      ...workStore.comparisons,
+    }
+  })
 }))

@@ -112,16 +112,16 @@ export const StackedBarChart = ({ alternativesLabels, criteriaLabels, data }: St
 
   return (
     <>
+      <Key seriesColors={seriesColors} />
       <div 
         ref={wrapperRef}
-        className='flex flex-col items-center justify-center w-3/4 h-3/4 mb-8'
+        className='flex flex-col items-center justify-center w-3/4 h-3/4 my-8'
       >
         <svg ref={svgRef} className='w-full h-full text-neutral-900 overflow-visible'>
           <g id='x-axis' />
           <g id='y-axis' />
         </svg>
       </div>
-      <Key seriesColors={seriesColors} />
     </>
   )
 }

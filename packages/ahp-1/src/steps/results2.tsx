@@ -10,7 +10,7 @@ import { useState } from 'react'
 import { BarChart } from '../components/barChart'
 
 
-const viewButton = cva(['bg-neutral-700 px-2 py-1 rounded-md'], {
+export const viewButton = cva(['bg-neutral-700 px-2 py-1 rounded-md'], {
   variants: {
     active: {
       true: 'text-green-400/90 outline outline-2 outline-green-400/90',
