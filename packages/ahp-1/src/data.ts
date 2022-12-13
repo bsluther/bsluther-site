@@ -822,3 +822,231 @@ export const workStore = {
   },
   "step": 6
 }
+
+export const workStore2 = {
+    "goal": {
+        "id": "8c5e42ca-10fd-4d17-976e-36e01b900b49",
+        "title": "Choose a job",
+        "description": "Weighing my 3 options for work next year.",
+        "alternatives": {
+            "54ed8935-2c4f-4a18-9d09-c38871d4e26b": {
+                "id": "54ed8935-2c4f-4a18-9d09-c38871d4e26b",
+                "title": "Diego Garcia",
+                "description": "6-8 week build with Beswick running the job starting end of Jan."
+            },
+            "066bc95c-a564-48ce-a736-8b2c856f62ab": {
+                "id": "066bc95c-a564-48ce-a736-8b2c856f62ab",
+                "title": "Guam",
+                "description": "~1 month of maintenance in February."
+            },
+            "ba818443-9a2e-490d-bbd5-b655a31682a1": {
+                "id": "ba818443-9a2e-490d-bbd5-b655a31682a1",
+                "title": "Croughton, UK",
+                "description": "1 month (?) build northwest of London. "
+            }
+        },
+        "alternativesOrder": [
+            "54ed8935-2c4f-4a18-9d09-c38871d4e26b",
+            "066bc95c-a564-48ce-a736-8b2c856f62ab",
+            "ba818443-9a2e-490d-bbd5-b655a31682a1"
+        ],
+        "criteria": {
+            "c4e10c20-1e54-4c60-a806-d4eac345771e": {
+                "id": "c4e10c20-1e54-4c60-a806-d4eac345771e",
+                "title": "Profit",
+                "description": "How much money I'll come away with. Should be gross of higher-pay and duration."
+            },
+            "3e7f4118-bcb8-4c08-94c2-9f8dde18f7ee": {
+                "id": "3e7f4118-bcb8-4c08-94c2-9f8dde18f7ee",
+                "title": "Lifestyle",
+                "description": "Quality of life when not working."
+            },
+            "e7758c96-fa1f-4425-b1ec-705b1f85ab79": {
+                "id": "e7758c96-fa1f-4425-b1ec-705b1f85ab79",
+                "title": "Time away",
+                "description": "How long am I gone and what impact does that have."
+            },
+            "e7e64cdd-9e10-4247-84ad-29cf5f3a65a3": {
+                "id": "e7e64cdd-9e10-4247-84ad-29cf5f3a65a3",
+                "title": "Crew",
+                "description": "How is the crew I'll be working with?"
+            },
+            "202089b4-5006-409d-84d5-6edaa9f1bdc3": {
+                "id": "202089b4-5006-409d-84d5-6edaa9f1bdc3",
+                "title": "Classes",
+                "description": "How would it impact trying to take online classes in the spring?"
+            },
+            "eb6b31ac-99d6-4b69-91c3-d0a908e4f061": {
+                "id": "eb6b31ac-99d6-4b69-91c3-d0a908e4f061",
+                "title": "Work",
+                "description": "Quality of life while working, not taking into account crew."
+            }
+        },
+        "criteriaOrder": [
+            "c4e10c20-1e54-4c60-a806-d4eac345771e",
+            "3e7f4118-bcb8-4c08-94c2-9f8dde18f7ee",
+            "e7758c96-fa1f-4425-b1ec-705b1f85ab79",
+            "e7e64cdd-9e10-4247-84ad-29cf5f3a65a3",
+            "202089b4-5006-409d-84d5-6edaa9f1bdc3",
+            "eb6b31ac-99d6-4b69-91c3-d0a908e4f061"
+        ]
+    },
+    "comparisons": {
+        "id": "b3512cbb-d44d-4b2c-a88c-52b3c5f6bafa",
+        "criteria": [
+            [
+                0,
+                1,
+                1,
+                0,
+                2,
+                3
+            ],
+            [
+                -1,
+                0,
+                2,
+                0,
+                2,
+                2
+            ],
+            [
+                -1,
+                -2,
+                0,
+                2,
+                1,
+                2
+            ],
+            [
+                0,
+                0,
+                -2,
+                0,
+                1,
+                1
+            ],
+            [
+                -2,
+                -2,
+                -1,
+                -1,
+                0,
+                2
+            ],
+            [
+                -3,
+                -2,
+                -2,
+                -1,
+                -2,
+                0
+            ]
+        ],
+        "alternatives": {
+            "c4e10c20-1e54-4c60-a806-d4eac345771e": [
+                [
+                    0,
+                    3,
+                    1
+                ],
+                [
+                    -3,
+                    0,
+                    -1
+                ],
+                [
+                    -1,
+                    1,
+                    0
+                ]
+            ],
+            "3e7f4118-bcb8-4c08-94c2-9f8dde18f7ee": [
+                [
+                    0,
+                    -1,
+                    -2
+                ],
+                [
+                    1,
+                    0,
+                    -2
+                ],
+                [
+                    2,
+                    2,
+                    0
+                ]
+            ],
+            "e7758c96-fa1f-4425-b1ec-705b1f85ab79": [
+                [
+                    0,
+                    -3,
+                    -2
+                ],
+                [
+                    3,
+                    0,
+                    0
+                ],
+                [
+                    2,
+                    0,
+                    0
+                ]
+            ],
+            "e7e64cdd-9e10-4247-84ad-29cf5f3a65a3": [
+                [
+                    0,
+                    5,
+                    4
+                ],
+                [
+                    -5,
+                    0,
+                    -2
+                ],
+                [
+                    -4,
+                    2,
+                    0
+                ]
+            ],
+            "202089b4-5006-409d-84d5-6edaa9f1bdc3": [
+                [
+                    0,
+                    -1,
+                    -2
+                ],
+                [
+                    1,
+                    0,
+                    1
+                ],
+                [
+                    2,
+                    -1,
+                    0
+                ]
+            ],
+            "eb6b31ac-99d6-4b69-91c3-d0a908e4f061": [
+                [
+                    0,
+                    4,
+                    2
+                ],
+                [
+                    -4,
+                    0,
+                    -3
+                ],
+                [
+                    -2,
+                    3,
+                    0
+                ]
+            ]
+        }
+    },
+    "step": 6
+}

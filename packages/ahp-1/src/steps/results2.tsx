@@ -8,7 +8,18 @@ import { sequenceT } from 'fp-ts/lib/Apply'
 import { cva } from 'class-variance-authority'
 import { useState } from 'react'
 import { BarChart } from '../components/barChart'
+import { Steps } from '../core'
+import { Incomplete } from '../components/incomplete'
 
+const prevSteps = [Steps.Goal, Steps.Alternatives, Steps.Criteria, Steps.CompareCriteria, Steps.CompareAlternatives]
+const incompleteSteps = (isStepComplete: (step: Steps) => boolean) =>
+  pipe(
+    prevSteps,
+    A.reduce(
+      [] as Steps[],
+      (acc, step) => isStepComplete(step) ? acc : A.append(step)(acc)
+    )
+  )
 
 export const viewButton = cva(['bg-neutral-700 px-2 py-1 rounded-md'], {
   variants: {
@@ -30,15 +41,23 @@ export const Results2 = () => {
     alternativesOrder,
     criteria,
     criteriaComparison, 
-    criteriaOrder
+    criteriaOrder,
+    isStepComplete
   } = useAhpStore(state => ({
     alternatives: state.goal.alternatives,
     alternativesComparisons: state.comparisons.alternatives,
     alternativesOrder: state.goal.alternativesOrder,
     criteria: state.goal.criteria,
     criteriaComparison: state.comparisons.criteria,
-    criteriaOrder: state.goal.criteriaOrder
+    criteriaOrder: state.goal.criteriaOrder,
+    isStepComplete: state.isStepComplete
   }))
+
+  const incomplete = incompleteSteps(isStepComplete)
+
+  if (incomplete.length > 0) {
+    return <Incomplete incomplete={incomplete} />
+  }
 
   const criteriaWeights = pipe(
     criteriaComparison,

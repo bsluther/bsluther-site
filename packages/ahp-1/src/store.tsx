@@ -7,7 +7,7 @@ import { append } from 'fp-ts/lib/Array'
 import { areAltsComplete, createMatrix, incrementDimension, isComplete, RateAlternativesParams, setCellAndReciprocal, SetCellParams } from './matrix'
 import { getTraversable } from 'fp-ts/lib/Record'
 import { Ord } from 'fp-ts/lib/string'
-import { nytStore, blankStore, catNameStore, secondNytStore, workStore } from './data'
+import { nytStore, blankStore, catNameStore, secondNytStore, workStore, workStore2 } from './data'
 
 const lens = Lens.fromPath<AhpStore>()
 
@@ -122,6 +122,7 @@ export interface AhpStore {
   isStepComplete: (step: Steps) => boolean
   loadNytData: () => void
   loadBriansData: () => void
+  loadBriansData2: () => void
 }
 
 interface GoalSlice extends Goal {
@@ -173,8 +174,11 @@ export const useAhpStore = create<AhpStore>()((set, get) => ({
     [Steps.Goal]: get().goal.title.length > 2,
     [Steps.Alternatives]: get().goal.alternativesOrder.length > 1,
     [Steps.Criteria]: get().goal.criteriaOrder.length > 1,
-    [Steps.CompareCriteria]: isComplete(get().comparisons.criteria),
-    [Steps.CompareAlternatives]: areAltsComplete(get().comparisons.alternatives),
+    [Steps.CompareCriteria]: get().goal.criteriaOrder.length > 1
+      && isComplete(get().comparisons.criteria),
+    [Steps.CompareAlternatives]: get().goal.criteriaOrder.length > 1 
+      && areAltsComplete(get().comparisons.alternatives)
+      && get().goal.alternativesOrder.length > 1,
     [Steps.Results]: false
   }[step]),
   loadNytData: () => set({
@@ -197,6 +201,17 @@ export const useAhpStore = create<AhpStore>()((set, get) => ({
     comparisons: {
       ...get().comparisons,
       ...workStore.comparisons,
+    }
+  }),
+  loadBriansData2: () => set({
+    ...get(),
+    goal: {
+      ...get().goal,
+      ...workStore2.goal
+    },
+    comparisons: {
+      ...get().comparisons,
+      ...workStore2.comparisons,
     }
   })
 }))
