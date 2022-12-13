@@ -29,14 +29,14 @@ export const Criteria = () => {
       <CardColumn 
         items={alternatives}
         handleClick={() => null}
-        focus={''}
+        focus={['']}
         setFocus={() => null}
         allowAppend={false}
       />
       <CardColumn 
         items={criteria}
         handleClick={(id: string) => setFocus(id)}
-        focus={focus}
+        focus={[focus]}
         setFocus={setFocus}
         allowAppend={true}
       />
