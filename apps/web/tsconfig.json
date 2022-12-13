@@ -3,6 +3,6 @@
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"],
   "compilerOptions": {
-    "lib": ["dom", "es6"]
+    "lib": ["dom", "es2021"]
   }
 }
