@@ -1,17 +1,29 @@
-import { calcFrontierWeights, prepMtx, sum, sumColumns, to3dMatrix, transpose } from '../matrix'
+import { calcFrontierWeights, prepMtx, to3dMatrix, transpose } from '../matrix'
 import { useAhpStore } from '../store'
 import * as O from 'fp-ts/Option'
 import * as A from 'fp-ts/Array'
-import * as T from 'fp-ts/Tuple'
 import { pipe } from 'fp-ts/lib/function'
-import { StackedBarChart } from '../components/stackedBarChart'
+import { Datum, StackedBarChart, } from '../components/stackedBarChart'
 import { sequenceT } from 'fp-ts/lib/Apply'
-import { Ord } from 'fp-ts/lib/string'
-import { log } from 'fp-ts/lib/Console'
+import { cva } from 'class-variance-authority'
+import { useState } from 'react'
+import { BarChart } from '../components/barChart'
 
+
+const viewButton = cva(['bg-neutral-700 px-2 py-1 rounded-md'], {
+  variants: {
+    active: {
+      true: 'text-green-400/90 outline outline-2 outline-green-400/90',
+      false: 'text-neutral-100'
+    }
+  }
+})
+
+const toSnake = (str: string) => str.replaceAll(' ', '_')
 
 
 export const Results2 = () => {
+  const [viewing, setViewing] = useState('criteria' as 'criteria' | 'alternatives')
   const {
     alternatives,
     alternativesComparisons,
@@ -39,6 +51,7 @@ export const Results2 = () => {
     O.map(A.map(calcFrontierWeights))
   )
 
+
   const alternativesData = pipe(
     alternativesWeights,
     O.map(transpose),
@@ -59,9 +72,10 @@ export const Results2 = () => {
       pipe(
         row,
         A.reduce(
-          { alternativeTitle: alternatives[alternativesOrder[ix]].title.replace(' ', '_') },
-          // {},
-          (acc, x) => ({ ...acc, ...x })
+          { 
+            alternativeTitle: alternatives[alternativesOrder[ix]].title.replace(' ', '_') 
+          } as Datum,
+          (acc, x) => ({ ...acc, weights: { ...acc.weights, ...x } })
         )
       )
 
@@ -69,17 +83,31 @@ export const Results2 = () => {
     ))
   )
 
-  return (
-    <div className='flex flex-col items-center justify-center w-full h-full'>
+  // const toIterable = (obj: Record<string, number>)
+  
 
-      {pipe(alternativesData, O.fold(() => null,
+  
+  return (
+    <div className='flex flex-col items-center justify-start w-full h-full'>
+      <div className='flex py-4 space-x-4'>
+        <button className={viewButton({ active: viewing === 'criteria' })} onClick={() => setViewing('criteria')}>Criteria Weights</button>
+        <button className={viewButton({ active: viewing === 'alternatives' })} onClick={() => setViewing('alternatives')}>Option Results</button>
+      </div>
+
+      {viewing === 'criteria' && pipe(criteriaWeights, O.fold(() => null,
+        crtWeights =>
+          <BarChart
+            criteriaTitles={criteriaOrder.map(crt => toSnake(criteria[crt].title))}
+            data={crtWeights.map((weight, ix) => ({ criteriaTitle: toSnake(criteria[criteriaOrder[ix]].title), weight }))}
+          />
+      ))}
+
+      {viewing === 'alternatives' && pipe(alternativesData, O.fold(() => null,
         altsData =>
           <StackedBarChart
-            data={{
-              alternativesLabels: alternativesOrder.map(altId => alternatives[altId].title.replace(' ', '_')),
-              criteriaLabels: criteriaOrder.map(crt => criteria[crt].title.replace(' ', '_')),
-              alternativesData: altsData
-            }}
+            alternativesLabels={alternativesOrder.map(altId => alternatives[altId].title.replace(' ', '_'))}
+            criteriaLabels={criteriaOrder.map(crt => criteria[crt].title.replace(' ', '_'))}
+            data={altsData}
           />
       ))}
       

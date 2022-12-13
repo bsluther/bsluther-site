@@ -1,46 +1,76 @@
 import React, { useEffect, useRef } from 'react'
 import { select, scaleBand, axisBottom, stack, max, scaleLinear, axisLeft } from 'd3'
 
-interface AlternativesData {
+// interface Data {
+//   // alternativeTitle: string
+//   [key: string]: number
+// }
+
+// type Data = { [key: string]: number }[]
+
+// interface AlternativesData {
+//   alternativesLabels: string[]
+//   criteriaLabels: string[]
+//   alternativesData: {
+//     alternativesTitle: string
+//     [key: string]: number
+//   }[]1
+// }
+
+
+// export interface Datum {
+//   [titleSymbol]: string
+//   [key: string]: number
+// }
+
+export interface Datum {
+  alternativeTitle: string,
+  weights: { [key: string]: number }
+}
+type Data = Datum[]
+interface StackedBarChartProps {
   alternativesLabels: string[]
   criteriaLabels: string[],
-  alternativesData: { [key: string]: number }[]
+  data: Data
 }
 
-interface StackedBarChartProps {
-  data: AlternativesData
-}
 
-const color = {
-  Income: 'blue',
-  Time_away: 'red',
-  School: 'green',
-  Job_location: 'yellow',
-  Crew: 'orange'
-}
+const colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999']
 
-const Key = () =>
+const Key = ({ seriesColors }: { seriesColors: Record<string, string> }) =>
   <div className='flex space-x-8'>
-    {Object.entries(color).map(([label, color]) => <span style={{ color }}>{label}</span>)}
+    {Object.entries(seriesColors).map(([label, color]) => 
+      <span 
+        key={label} 
+        style={{ backgroundColor: color }}
+        className='px-2 py-1'
+      >{label}</span>)}
   </div>
 
-export const StackedBarChart = ({ data }: StackedBarChartProps ) => {
+export const StackedBarChart = ({ alternativesLabels, criteriaLabels, data }: StackedBarChartProps ) => {
   const svgRef = useRef<SVGSVGElement | null>(null)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
-  console.log('alternativesData', data.alternativesData)
+
+  const seriesColors = criteriaLabels.reduce((acc, label, ix) => ({ ...acc, [label]: colors[ix] ?? 'purple' }), {} as Record<string, string>)
+  console.log('alternativesData', data)
+
   useEffect(() => {
     if (svgRef.current && wrapperRef.current) {
       const svg = select(svgRef.current)
       const { width, height } = wrapperRef.current.getBoundingClientRect()
 
-      const stackGenerator = stack().keys(data.criteriaLabels)
-      const layers = stackGenerator(data.alternativesData)
+      // note: a series is a layer, intuitively
+      const stackGenerator = stack<Datum>()
+        .keys(criteriaLabels) // .keys tells D3 which properties (series) in the dataset to use
+        .value((obj, key) => obj.weights[key]) // this avoids the typescript problem of having to specify arbitrary string keys as number values, while still having a string key string value "alternativeTitle" property by nesting the "value" inside an object, named "weights"
+
+      const layers = stackGenerator(data)
       const extent = [0, max(layers, layer => max(layer, sequence => sequence[1])) ?? 0]
-      console.log('layers', layers)
+      console.log('layers aka series', layers)
       console.log('extent', extent)
 
       const xScale = scaleBand()
-        .domain(data.alternativesLabels)
+        .domain(alternativesLabels)
         .range([0, width])
         .padding(0.25)
 
@@ -64,13 +94,15 @@ export const StackedBarChart = ({ data }: StackedBarChartProps ) => {
         .data(layers)
         .join('g')
         .attr('class', 'layer')
-        .attr('fill', layer => color[layer.key])
+        .attr('fill', series => {
+          // console.log('series in fill attr', series)
+          return seriesColors[series.key]
+        })
         .selectAll('rect')
         .data(layer => layer)
         .join('rect')
         .attr('x', sequence => {
-          // console.log('swq', sequence)
-          return xScale(sequence.data.alternativeTitle)
+          return xScale(sequence.data.alternativeTitle) ?? null // This is where we look to find the "title" for each bar of the graph
         })
         .attr('width', xScale.bandwidth())
         .attr('y', sequence => yScale(sequence[1]))
@@ -82,14 +114,14 @@ export const StackedBarChart = ({ data }: StackedBarChartProps ) => {
     <>
       <div 
         ref={wrapperRef}
-        className='flex flex-col items-center justify-center w-3/4 h-3/4 mb-8 overflow-visible'
+        className='flex flex-col items-center justify-center w-3/4 h-3/4 mb-8'
       >
-        <Key />
-        <svg ref={svgRef} className='w-full h-full border border-neutral-800 text-neutral-900 overflow-visible'>
-          <g id='x-axis' className='' />
-          <g id='y-axis' className='y-axis bg-red-400' />
+        <svg ref={svgRef} className='w-full h-full text-neutral-900 overflow-visible'>
+          <g id='x-axis' />
+          <g id='y-axis' />
         </svg>
       </div>
+      <Key seriesColors={seriesColors} />
     </>
   )
 }
