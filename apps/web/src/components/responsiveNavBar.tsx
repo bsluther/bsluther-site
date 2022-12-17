@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { useState } from 'react'
 import { useBreakpoint } from 'ui'
@@ -40,24 +41,66 @@ const NameIcon = ({ onClick }: { onClick: () => void }) => {
     </button>
   )
 }
-
+interface SubmenuProps {
+  label: string
+  baseHref: string
+  items: [string, string][]
+}
+const Submenu = ({ label, baseHref, items }: SubmenuProps) => {
+  const [menuOpen, setMenuOpen] = useState(false)
+  return (
+    <li className='relative flex w-full h-max'>
+      <button className=''>{label}</button>
+      <span className='min-w-[2rem] grow' />
+      <svg 
+        className={`w-6 h-6 transition-transform duration-500 ${menuOpen && 'rotate-180'}`}
+        fill="currentColor" 
+        viewBox="0 0 20 20" 
+        xmlns="http://www.w3.org/2000/svg"
+        onClick={() => setMenuOpen(prev => !prev)}
+      >
+        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+      <ul className={`absolute top-full left-0 flex flex-col border-l-2 border-neutral-900 space-y-2 pl-2
+        transition-transform duration-500 origin-top
+        ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>
+        {items.map(([label, href]) =>
+          <Link 
+            key={href}
+            href={baseHref.concat(href)}
+          >{label}</Link>)}
+      </ul>
+    </li>
+  )
+}
 
 const MobileIcon = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  const router = useRouter()
 
   return (
     <nav className='relative w-max h-max'>
       <NameIcon onClick={() => setMenuOpen(prev => !prev)} />
 
       <ul
-        className={`absolute top-full left-0 bg-neutral-100 w-max h-max pl-4 pr-8 py-2
-          transition-transform origin-top duration-500 ease-in-out translate-y-2
+        className={`absolute top-full left-0 bg-neutral-100 w-max h-max px-4 py-2
+          transition-transform origin-top duration-500 ease-in-out translate-y-2 space-y-2
           ${menuOpen ? 'scale-y-100' : 'scale-y-0'}
         `}
       >
-        <li className={`transition transform origin-top duration-500 ease-in-out ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Home</li>
-        <li className={`transition transform origin-top duration-500 ease-in-out ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Projects</li>
-        <li className={`transition transform origin-top duration-500 ease-in-out ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Blog</li>
+        <li className={`transition transform origin-top duration-500 ease-in-out 
+          ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Home</li>
+        <li className={`transition transform origin-top duration-500 ease-in-out 
+          ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Projects</li>
+        <Submenu 
+          label='Projects' 
+          baseHref='/projects'
+          items={[
+            ['AHP', '/ahp'],
+            ['MeasureTS', 'measure-ts']
+          ]}
+        />
+        <li className={`transition transform origin-top duration-500 ease-in-out 
+          ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Blog</li>
       </ul>
     </nav>
   )
