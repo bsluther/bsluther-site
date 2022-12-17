@@ -4,7 +4,7 @@ module.exports = {
     '../../packages/ahp-0/**/*.{ts,tsx}',
     '../ahp-0/*.{ts,tsx}',
     '../ahp-0/**/*.{ts,tsx}',
-    './src/**/*.{ts,tsx}',
+    './src/**/*.{ts,tsx,md,mdx}',
     '../../packages/ahp-1/**/*.{ts,tsx}'
   ],
   theme: {

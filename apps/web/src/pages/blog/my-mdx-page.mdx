@@ -1,0 +1,26 @@
+---
+title: My MDX Page
+publishedOn: 2022-12-13
+excerpt: A test page for my blog.
+---
+
+import { BlogLayout } from '../../components/blog/BlogLayout'
+
+# My MDX page
+
+## Here's an H2
+
+Here is some *accented* text. {2 + 2} = 4. TEST!
+
+```js
+const code = 'this!'
+```
+
+> Block quote!
+<span className='text-pink-400'>pink!</span>
+- One
+- Two
+- Three
+
+export default ({ children }) =>
+  <BlogLayout>{children}</BlogLayout>

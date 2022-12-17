@@ -2,6 +2,7 @@ import { ReactNode } from 'react'
 import { NavBar } from './navBar'
 import { Recursive } from '@next/font/google'
 import { HorizontalNavBar } from './horizontalNavBar'
+import { ResponsiveNavBar } from './responsiveNavBar'
 
 const recursive = Recursive({ weight: 'variable', subsets: ['latin'] })
 
@@ -12,8 +13,8 @@ export const Layout = ({ children }: { children: ReactNode }) => {
       className={`h-screen w-screen bg-neutral-900NO ${recursive.className}`}
     >
       <div className='flex flex-col h-full'>
-        <HorizontalNavBar />
-        <div className='grow h-full p-4NO'>
+        <ResponsiveNavBar />
+        <div className='grow h-full px-4'>
           {children}
         </div>
       </div>

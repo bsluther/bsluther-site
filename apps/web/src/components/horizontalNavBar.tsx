@@ -26,14 +26,14 @@ const NameIconLg = () => {
   )
 }
 
-const NameIconSm = () => {
+export const NameIconSm = () => {
   const router = useRouter()
   return (
     <button 
       className='w-max h-max bg-neutral-100 text-black flex flex-col items-center px-2 py-1 -space-y-1'
       onClick={() => router.push('/')}
     >
-      <div className='flex flex-col -space-y-1 font-semibold items-start text-lg'>
+      <div className='flex flex-col -space-y-1 font-semibold items-start'>
         <div className='flex'>
           <span className='text-sm'>B</span>
           <span className='text-neutral-600 text-sm'>rian</span>
@@ -73,7 +73,7 @@ const navButton = cva(['w-max'], {
   }
 })
 
-const NavButton = ({ label, href }: { label: string, href: string }) => {
+export const NavButton = ({ label, href }: { label: string, href: string }) => {
   const router = useRouter()
 
   return (
@@ -84,7 +84,7 @@ const NavButton = ({ label, href }: { label: string, href: string }) => {
   )
 }
 
-const DropdownNavButton = ({ label, baseHref, items }:
+export const DropdownNavButton = ({ label, baseHref, items }:
   { label: string, baseHref: string, items: Record<string, string> }) => {
   const router = useRouter()
   const subroute = items[router.route]

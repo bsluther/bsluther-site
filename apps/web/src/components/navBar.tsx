@@ -10,7 +10,7 @@ export const NameIcon = () => {
       className='w-24 bg-neutral-100 text-black flex flex-col items-center py-2 -space-y-1 mb-8'
       onClick={() => router.push('/')}
     >
-      <div className='flex flex-col -space-y-2 font-semibold items-start text-lg'>
+      <div className='flex flex-col -space-y-2 font-semibold items-start text-xl'>
         <div className='flex'>
           <span>B</span>
           <span className='text-neutral-600 text-blue-800NO'>rian</span>
