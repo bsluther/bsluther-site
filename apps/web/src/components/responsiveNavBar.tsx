@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
-import { useBreakpoint } from 'ui'
+import { useRef, useState } from 'react'
+import { useBreakpoint, useOutsideClick } from 'ui'
 import { DropdownNavButton, NameIconSm, NavButton } from './horizontalNavBar'
 
 
@@ -19,7 +19,7 @@ const WithDropdown = ({ children }: { children: JSX.Element }) => {
   )
 }
 
-const NameIcon = ({ onClick }: { onClick: () => void }) => {
+const NameIcon = ({ onClick = () => null }: { onClick?: () => void }) => {
   
   return (
     <button 
@@ -52,21 +52,15 @@ interface SubmenuProps {
 const Submenu = ({ label, baseHref, items, handleClick }: SubmenuProps) => {
   const [menuOpen, setMenuOpen] = useState(false)
   return (
-    <div className='flex flex-col h-max'>
-      <li className='flex w-full h-max'>
-        <button className=''>{label}</button>
-        {/* <span className='min-w-[2rem] grow' /> */}
-        {/* <svg 
-          className={`w-6 h-6 transition-transform duration-500 ${menuOpen && 'rotate-180'}`}
-          fill="currentColor" 
-          viewBox="0 0 20 20" 
-          xmlns="http://www.w3.org/2000/svg"
-          onClick={() => setMenuOpen(prev => !prev)}
-        >
-          <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-        </svg> */}
-      </li>
-      <ul className={`h-max flex flex-col border-l-2 border-neutral-900 space-y-2 pl-2 pt-2
+    <div className='flex flex-col items-start h-max pb-2'>
+      <Link 
+        href={baseHref} 
+        onClick={() => {
+          handleClick()
+          setMenuOpen(false)
+        }}
+      >{label}</Link>
+      <ul className={`h-max flex flex-col items-start border-l-2 border-neutral-900 space-y-2 pl-2 pt-2
         transition-transform duration-500 origin-top overflow-hidden
         ${menuOpen ? 'scale-y-100NO' : 'scale-y-0NO'}`}
       >
@@ -95,50 +89,109 @@ const MobileIcon = () => {
   return (
     <nav className='relative w-full h-max'>
       <div 
-        className='w-full flex items-center justify-end space-x-4'
+        className='w-full flex items-center space-x-4'
         onClick={() => setMenuOpen(prev => !prev)}
       >
-        <div className='w-max h-max invisible'>
+        {/* <div className='w-max h-max invisible'>
           <NameIcon onClick={() => null} />
-        </div>
-        <div className='flex text-neutral-100 grow justify-center'>
-          <span className='text-neutral-100 capitalize text-2xl font-semiboldNO'>{parseRoute(router.route)}</span>
-          {/* <svg 
-            className={`w-6 h-6 transition-transform duration-500 ${menuOpen && 'rotate-180'}`}
-            fill="currentColor" 
-            viewBox="0 0 20 20" 
-            xmlns="http://www.w3.org/2000/svg"
-            // onClick={() => setMenuOpen(prev => !prev)}
-            >
-            <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
-          </svg> */}
-        </div>
+        </div> */}
         <NameIcon onClick={() => null} />
+        <div className='flex text-neutral-100'>
+          <span className='text-neutral-100 capitalize text-2xl font-semiboldNO'>{parseRoute(router.route)}</span>
+        </div>
       </div>
 
       <ul
-        className={`absolute top-full right-0 bg-neutral-100 w-max h-max px-4 py-2
+        className={`absolute top-full left-0 bg-neutral-100 w-max h-max px-4 py-2
           transition-transform origin-top duration-500 ease-in-out translate-y-2 space-y-2
           ${menuOpen ? 'scale-y-100' : 'scale-y-0'}
         `}
       >
-        <li className={`transition transform origin-top duration-500 ease-in-out 
-          ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Home</li>
+        <Link 
+          className={`transition transform origin-top duration-500 ease-in-out 
+            ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
+          href='/'
+          onClick={() => setMenuOpen(false)}
+        >Home</Link>
         {/* <li className={`transition transform origin-top duration-500 ease-in-out 
           ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Projects</li> */}
         <Submenu 
           label='Projects' 
           baseHref='/projects'
           items={[
+            ['Overview', '/'],
             ['AHP', '/ahp'],
             ['MeasureTS', '/measure-ts']
           ]}
           handleClick={() => setMenuOpen(false)}
         />
-        <li className={`transition transform origin-top duration-500 ease-in-out 
-          ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Blog</li>
+        <Link 
+          className={`transition transform origin-top duration-500 ease-in-out 
+            ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
+          href='/blog'
+          onClick={() => setMenuOpen(false)}
+        >Blog</Link>
       </ul>
     </nav>
+  )
+}
+
+const Hamburger = () => {
+  const [menuOpen, setMenuOpen] = useState(false)
+  const router = useRouter()
+  const hamburgerRef = useRef<HTMLButtonElement>(null)
+
+  useOutsideClick([hamburgerRef], () => setMenuOpen(false))
+  return (
+    <button
+      className='relative'
+      ref={hamburgerRef}
+    >
+      <svg 
+        role='button'
+        className="w-8 h-8 text-neutral-100" 
+        fill="currentColor" 
+        viewBox="0 0 20 20" 
+        xmlns="http://www.w3.org/2000/svg"
+        onClick={() => setMenuOpen(prev => !prev)}
+      >
+        <path 
+          fillRule="evenodd" 
+          d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" 
+          clipRule="evenodd" 
+        />
+      </svg>
+      <ul
+        className={`absolute top-full right-0 bg-neutral-100 w-max h-max px-4 py-2
+          flex flex-col items-start
+          transition-transform origin-top duration-300 ease-in-out translate-y-2 space-y-2
+          ${menuOpen ? 'scale-y-100' : 'scale-y-0'}
+        `}
+      >
+        <Link 
+          className={`transition transform origin-top duration-500 ease-in-out 
+            ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
+          href='/'
+          onClick={() => setMenuOpen(false)}
+        >Home</Link>
+        <Submenu 
+          label='Projects' 
+          baseHref='/projects'
+          items={[
+            ['Overview', '/'],
+            ['AHP', '/ahp'],
+            ['MeasureTS', '/measure-ts']
+          ]}
+          handleClick={() => setMenuOpen(false)}
+        />
+        <Link 
+          className={`transition transform origin-top duration-500 ease-in-out 
+            ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
+          href='/blog'
+          onClick={() => setMenuOpen(false)}
+        >Blog</Link>
+      </ul>
+    </button>
   )
 }
 
@@ -146,6 +199,13 @@ export const ResponsiveNavBar = () => {
   const { breakpoint, isPastBreakpoint } = useBreakpoint()
   const router = useRouter()
 
+  if (!isPastBreakpoint('sm')) return (
+    <section className='w-full h-max p-4 flex items-center'>
+      <NameIcon onClick={() => router.push('/')} />
+      <div className='grow'></div>
+      <Hamburger />
+    </section>
+  )
   return (
     <section className='flex w-full h-max p-4 items-center space-x-12'>
       {isPastBreakpoint('sm')

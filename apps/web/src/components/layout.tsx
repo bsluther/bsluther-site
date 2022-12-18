@@ -14,7 +14,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     >
       <div className='flex flex-col h-full'>
         <ResponsiveNavBar />
-        <div className='grow h-full px-4'>
+        <div className='grow h-full bg-neutral-400 text-black'>
           {children}
         </div>
       </div>

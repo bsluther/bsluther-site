@@ -49,7 +49,7 @@ const isPastBreakpoint = (w: number) => (bp: Breakpoint) => {
 
 export const useBreakpoint = () => {
   const [currWidth, setCurrWidth] = useState(0)
-  console.log(currWidth)
+
   useEffect(() => {
     const resizeHandler = () => {
       setCurrWidth(window.innerWidth)
