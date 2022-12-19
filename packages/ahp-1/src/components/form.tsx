@@ -23,7 +23,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
 
   return (
     <form
-      className='w-max max-w-full flex flex-col items-center bg-neutral-500 p-8 rounded-lg space-y-8 text-sm sm:text-md'
+      className='w-max max-w-full flex flex-col items-center bg-neutral-500 p-8 rounded-lg space-y-8'
       onSubmit={e => {
         e.preventDefault()
         if (isValid) {
