@@ -1,11 +1,17 @@
 import { ChevronLeftSvg, ChevronRightSvg } from 'ui'
 import { Steps } from '../core'
 import { useAhpStore } from '../store'
-import * as O from 'fp-ts/Option'
-import * as IO from 'fp-ts/IO'
-import { pipe } from 'fp-ts/lib/function'
 
 
+const parseStep = (step: Steps) => {
+  if (step === Steps.Goal) return 'Set a Goal'
+  if (step === Steps.Alternatives) return 'Enter Options'
+  if (step === Steps.Criteria) return 'Enter Criteria'
+  if (step === Steps.CompareCriteria) return 'Compare Criteria'
+  if (step === Steps.CompareAlternatives) return 'Compare Options'
+  if (step === Steps.Results) return 'View Results'
+  else return '' as never
+}
 
 export const StepCarousel = () => {
   const step = useAhpStore(state => state.step)
@@ -27,36 +33,38 @@ export const StepCarousel = () => {
   }
 
   return (
-    <nav className='flex items-center w-full h-max text-neutral-100 bg-neutral-800'>
+    <nav className='flex items-center w-full min-h-[5rem] h-max text-neutral-100 bg-green-800 py-1'>
       {step !== Steps.Goal
         ? <ChevronLeftSvg 
-            className='w-8 h-8' 
+            className='w-8 h-8 scale-y-150' 
             onClick={() => gotoPrevStep(step)} 
           />
         : <div className='w-8 h-8' />}
       <ol className='flex w-full items-center'>
+
         <li className='w-max grow text-sm opacity-60 basis-1 flex flex-col items-center'>
           {Steps[prevStep] && <>
             <span>Step {step - 1}:</span>
-            <span>{Steps[prevStep]}</span>
+            <span className='max-w-[4rem] text-center'>{parseStep(prevStep)}</span>
           </>}
         </li>
 
-        <li className='w-max text-lg flex flex-col items-center'>
-          <span>Step {step}:</span>
-          <span>{Steps[step] === 'Alternatives' ? 'Options' : Steps[step]}</span>
+        <li className='max-w-[4rem] text-lg flex flex-col items-center'>
+          <span className=''>Step {step}:</span>
+          <div className='text-center inline-block'>{parseStep(step)}</div>
         </li>
         
-        <li className='w-max grow text-sm opacity-60 basis-1 flex flex-col items-center'>
+        <li className='w-max max-w-full grow text-sm opacity-60 basis-1 flex flex-col items-center px-1'>
           {Steps[nextStep] && <>
             <span>Step {step + 1}:</span>
-            <span>{Steps[nextStep]}</span>
+            <div className='max-w-[4rem] text-center'>{parseStep(nextStep)}</div>
           </>}
         </li>
+
       </ol>
       {step !== Steps.Results &&
         <ChevronRightSvg 
-          className='w-8 h-8'
+          className='w-8 h-8 scale-y-150'
           onClick={() => gotoNextStep(step)}
         />}
     </nav>

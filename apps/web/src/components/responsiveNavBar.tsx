@@ -82,6 +82,16 @@ const parseRoute = (href: string) => {
   return href.slice(href.lastIndexOf('/') + 1)
 }
 
+const InitialsIcon = ({ onClick }: { onClick: () => void }) => {
+  return (
+    <div className='flex' onClick={onClick}>
+      <div className='w-6 h-6 bg-neutral-100 text-center'>B</div>
+      <div className='w-7 h-6 text-neutral-100 bg-neutral-800NO text-center'>S</div>
+      <div className='w-6 h-6 bg-neutral-100 text-center'>L</div>
+    </div>
+  )
+}
+
 const MobileIcon = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const router = useRouter()
@@ -149,7 +159,7 @@ const Hamburger = () => {
     >
       <svg 
         role='button'
-        className="w-8 h-8 text-neutral-100" 
+        className="w-6 h-6 text-neutral-100 scale-x-125" 
         fill="currentColor" 
         viewBox="0 0 20 20" 
         xmlns="http://www.w3.org/2000/svg"
@@ -196,35 +206,33 @@ const Hamburger = () => {
 }
 
 export const ResponsiveNavBar = () => {
-  const { breakpoint, isPastBreakpoint } = useBreakpoint()
+  const { isPastBreakpoint } = useBreakpoint()
   const router = useRouter()
 
   if (!isPastBreakpoint('sm')) return (
-    <section className='w-full h-max p-4 flex items-center'>
-      <NameIcon onClick={() => router.push('/')} />
+    <section className='w-full h-max py-3 px-4 flex items-center'>
+      {/* <NameIcon onClick={() => router.push('/')} /> */}
+      <InitialsIcon onClick={() => router.push('/')} />
       <div className='grow'></div>
       <Hamburger />
     </section>
   )
   return (
     <section className='flex w-full h-max p-4 items-center space-x-12'>
-      {isPastBreakpoint('sm')
-        ? <NameIcon onClick={() => router.push('/')} />
-        : <MobileIcon />}
-      {isPastBreakpoint('sm') && 
-        <div className='grow flex space-x-12'>
-          <NavButton label='Home' href='/' />
-          <DropdownNavButton 
-            label='Projects' 
-            baseHref='/projects'
-            items={{
-              '/projects/measure-ts': 'MeasureTS',
-              '/projects/ahp': 'AHP'
-            }}
-          />
-          <NavButton label='Blog' href='/blog' />
-          <NavButton label='CV' href='/cv' />
-        </div>}
+      <NameIcon onClick={() => router.push('/')} />
+      <div className='grow flex space-x-12'>
+        <NavButton label='Home' href='/' />
+        <DropdownNavButton 
+          label='Projects' 
+          baseHref='/projects'
+          items={{
+            '/projects/measure-ts': 'MeasureTS',
+            '/projects/ahp': 'AHP'
+          }}
+        />
+        <NavButton label='Blog' href='/blog' />
+        <NavButton label='CV' href='/cv' />
+      </div>
     </section>
   )
 }
