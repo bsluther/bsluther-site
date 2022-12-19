@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { PlusSvg, useOutsideClick } from 'ui'
 import { Alternative, Criterion } from '../core'
 
-const card = cva(['sm:w-48 w-8 h-8 text-center bg-neutral-600 rounded-sm px-2 py-1 cursor-pointer'], {
+const card = cva(['sm:w-48 w-max h-8 text-center bg-neutral-600 rounded-sm px-2 py-1 cursor-pointer'], {
   variants: {
     active: {
       true: 'outline',
@@ -53,7 +53,7 @@ export const CardColumn = ({ items, handleClick, focus, setFocus, allowAppend }:
           isFocused={focus.includes(itm.id)}
         />)}
       {allowAppend && 
-        <PlusSvg className={card({ active: focus.includes('DRAFT') })} onClick={() => setFocus('DRAFT')} />}
+        <PlusSvg className={card({ active: focus.includes('DRAFT'), className: 'w-8' })} onClick={() => setFocus('DRAFT')} />}
     </ul>
   )
 }
