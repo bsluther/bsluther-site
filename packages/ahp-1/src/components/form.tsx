@@ -23,7 +23,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
 
   return (
     <form
-      className='w-max max-w-full flex flex-col items-center sm:bg-neutral-500 p-8 rounded-lg space-y-8'
+      className='w-max max-w-full flex flex-col items-center sm:bg-neutral-500 md:p-8 rounded-lg space-y-2 sm:space-y-8'
       onSubmit={e => {
         e.preventDefault()
         if (isValid) {
@@ -32,8 +32,8 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
       }}
       onBlur={() => window.scrollTo(0, 84)}
     >
-      <h1 className='text-black text-xl underline'>{heading}</h1>
-      <div className='flex flex-col sm:flex-row items-center gap-2'>
+      <h1 className='text-black text-xl underline sm:no-underline'>{heading}</h1>
+      <div className='flex flex-col sm:flex-row items-center gap-1 sm:gap-2'>
         <label 
           className='text-black'
           htmlFor='title'
@@ -50,10 +50,9 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
             }
           }}
           onBlur={() => window.scrollTo(0, 84)}
-          onFocus={e => e.preventDefault()}
         />
       </div>
-      <div className='flex flex-col sm:flex-row items-center gap-2'>
+      <div className='flex flex-col sm:flex-row items-center gap-1 sm:gap-2'>
         <label 
           className='text-black'
           htmlFor='description'
@@ -64,7 +63,6 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
           id='description'
           value={description}
           onChange={e => updateDescription(e.target.value)}
-          onFocus={e => e.preventDefault()}
         />
       </div>
       <button>
