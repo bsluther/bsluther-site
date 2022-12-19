@@ -44,7 +44,7 @@ const CriteriaResult = ({ criteriaComparison, orderedCriteria }: CriteriaResultP
                   key={title}
                   className='flex items-center space-x-2' 
                 >
-                  <Card title={title} />
+                  <Card title={title} contentType='criteria' />
                   <span className='text-neutral-900'>{weight}</span>
                 </div>
               )}
@@ -98,7 +98,7 @@ const AlternativesResult = ({ criteriaWeights }: AlternativesResult) => {
               key={title}
               className='flex items-center space-x-2' 
             >
-              <Card title={title} />
+              <Card title={title} contentType='alternatives' />
               <span className='text-neutral-900'>{result}</span>
             </div>
           ))
