@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { PlusSvg, useOutsideClick } from 'ui'
 import { Alternative, Criterion } from '../core'
 
-const card = cva(['w-48 h-8 text-center bg-neutral-600 rounded-sm px-2 py-1 cursor-pointer'], {
+const card = cva(['w-max sm:w-48 h-8 text-center bg-neutral-600 rounded-sm px-2 py-1 cursor-pointer'], {
   variants: {
     active: {
       true: 'outline',
@@ -42,7 +42,8 @@ export const CardColumn = ({ items, handleClick, focus, setFocus, allowAppend }:
 
   return (
     <ul
-      className='flex flex-col h-full w-max p-4 bg-neutral-800 space-y-4'
+      className='flex flex-wrap items-center w-full h-max p-4 bg-neutral-800 gap-2
+      sm:flex-col sm:h-full sm:w-max'
     >
       {items.map(itm => 
         <Card 

@@ -25,7 +25,7 @@ export const Alternatives = () => {
   }))
 
   return (
-    <div className='w-full h-full flex'>
+    <div className='w-full h-full flex flex-col-reverse sm:flex-row'>
       <CardColumn 
         items={alternatives}
         handleClick={(id: string) => setFocus(id)}

@@ -1,24 +1,64 @@
 import { ChevronLeftSvg, ChevronRightSvg } from 'ui'
 import { Steps } from '../core'
 import { useAhpStore } from '../store'
+import * as O from 'fp-ts/Option'
+import * as IO from 'fp-ts/IO'
+import { pipe } from 'fp-ts/lib/function'
+
+
 
 export const StepCarousel = () => {
   const step = useAhpStore(state => state.step)
+  const gotoStep = useAhpStore(state => state.gotoStep)
 
-  const prevStep = Steps[step - 1]
-  const nextStep = Steps[step + 1]
+  const prevStep = step - 1
+  const nextStep = step + 1
+
+  const gotoPrevStep = (step: Steps) => {
+    if (Steps[prevStep]) {
+      gotoStep(step - 1)
+    }
+  }
+
+  const gotoNextStep = (step: Steps) => {
+    if (Steps[nextStep]) {
+      gotoStep(step + 1)
+    }
+  }
+
   return (
-    <nav className='flex w-full h-max text-neutral-900'>
+    <nav className='flex items-center w-full h-max text-neutral-900'>
       {step !== Steps.Goal
-        ? <ChevronLeftSvg className='w-6 h-6 bg-neutral-400' />
-        : <div className='w-6 h-6 bg-neutral-400' />}
+        ? <ChevronLeftSvg 
+            className='w-8 h-8 bg-neutral-400' 
+            onClick={() => gotoPrevStep(step)} 
+          />
+        : <div className='w-8 h-8 bg-neutral-400' />}
       <ol className='flex w-full items-center'>
-        <li className='w-max grow basis-1'>{step - 1 === 0 ? '' : `${step - 1}. `}{prevStep}</li>
-        <li className='w-max text-lg'>{step}. {Steps[step]}</li>
-        <li className='w-max grow basis-1'>{step + 1}. {nextStep}</li>
+        <li className='w-max grow text-sm opacity-60 basis-1 flex flex-col items-center'>
+          {Steps[prevStep] && <>
+            <span>Step {step - 1}:</span>
+            <span>{Steps[prevStep]}</span>
+          </>}
+        </li>
+
+        <li className='w-max text-lg flex flex-col items-center'>
+          <span>Step {step}:</span>
+          <span>{Steps[step]}</span>
+        </li>
+        
+        <li className='w-max grow text-sm opacity-60 basis-1 flex flex-col items-center'>
+          {Steps[nextStep] && <>
+            <span>Step {step + 1}:</span>
+            <span>{Steps[nextStep]}</span>
+          </>}
+        </li>
       </ol>
       {step !== Steps.Results &&
-        <ChevronRightSvg className='w-6 h-6 bg-neutral-400' />}
+        <ChevronRightSvg 
+          className='w-8 h-8 bg-neutral-400'
+          onClick={() => gotoNextStep(step)}
+        />}
     </nav>
   )
 }

@@ -23,7 +23,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
 
   return (
     <form
-      className='w-max flex flex-col items-center bg-neutral-500 p-8 rounded-lg space-y-8'
+      className='w-max max-w-full flex flex-col items-center bg-neutral-500 p-8 rounded-lg space-y-8 text-sm sm:text-md'
       onSubmit={e => {
         e.preventDefault()
         if (isValid) {
@@ -31,7 +31,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
         }
       }}
     >
-      <h1 className='text-black text-xl'>{heading}</h1>
+      <h1 className='text-black text-lg sm:text-xl'>{heading}</h1>
       <div className='flex items-center space-x-2'>
         <label 
           className='text-black'

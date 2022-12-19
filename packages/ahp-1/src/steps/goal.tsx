@@ -17,7 +17,7 @@ export const Goal = () => {
 
   return (
     <div
-      className='w-full h-full flex flex-col items-center justify-center'
+      className='w-full h-full flex flex-col items-center justify-center sm:px-0 px-4'
     >
       <Form 
         title={title}
@@ -28,7 +28,7 @@ export const Goal = () => {
         handleDone={() => gotoStep(Steps.Alternatives)}
       />
       <div className='h-1/4 w-1/4' />
-      <div className='flex py-4 space-x-4'>
+      <div className='flex py-4 space-x-4 text-sm sm:text-md'>
         <button className={viewButton({ active: false })} onClick={loadNytData}>Load NYT Data</button>
         <button className={viewButton({ active: false })} onClick={loadBriansData}>Load Work Data</button>
         <button className={viewButton({ active: false })} onClick={loadBriansData2}>Load Work Data - 2</button>

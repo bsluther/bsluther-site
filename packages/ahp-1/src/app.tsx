@@ -27,7 +27,7 @@ export const App = () => {
   console.log('STORE', store)
 
   return (
-    <div className='w-full h-full bg-neutral-400 text-neutral-100 flex flex-col-reverse sm:flex'>
+    <div className='w-full h-full bg-neutral-400 text-neutral-100 flex flex-col-reverse sm:flex-row'>
 
       <div className='grow h-full'>
         <StepRouter
