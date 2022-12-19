@@ -48,6 +48,7 @@ export const CompareCriteria = () => {
         focus={[]}
         setFocus={() => null}
         allowAppend={false}
+        contentType='alternatives'
       />
       <CardColumn 
         items={orderedCriteria}
@@ -55,6 +56,7 @@ export const CompareCriteria = () => {
         focus={[x ?? '', y ?? '']}
         setFocus={(id: string) => null}
         allowAppend={false}
+        contentType='criteria'
       />
       <div className='grow flex flex-col items-center justify-center space-y-8'>
         <Versus2 
