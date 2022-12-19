@@ -3,7 +3,7 @@ import { useRef } from 'react'
 import { PlusSvg, useOutsideClick } from 'ui'
 import { Alternative, Criterion } from '../core'
 
-const card = cva(['w-max sm:w-48 h-8 text-center bg-neutral-600 rounded-sm px-2 py-1 cursor-pointer'], {
+const card = cva(['sm:w-48 w-8 h-8 text-center bg-neutral-600 rounded-sm px-2 py-1 cursor-pointer'], {
   variants: {
     active: {
       true: 'outline',
