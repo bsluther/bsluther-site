@@ -25,13 +25,14 @@ export const Criteria = () => {
   }))
 
   return (
-    <div className='w-full h-full flex'>
+    <div className='w-full h-full flex flex-col sm:flex-row'>
       <CardColumn 
         items={alternatives}
         handleClick={() => null}
         focus={['']}
         setFocus={() => null}
         allowAppend={false}
+        contentType='alternatives'
       />
       <CardColumn 
         items={criteria}
@@ -39,6 +40,7 @@ export const Criteria = () => {
         focus={[focus]}
         setFocus={setFocus}
         allowAppend={true}
+        contentType='criteria'
       />
       <div className='grow flex flex-col items-center justify-center'>
         <Form

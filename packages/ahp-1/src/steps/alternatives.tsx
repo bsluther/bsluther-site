@@ -32,6 +32,7 @@ export const Alternatives = () => {
         focus={[focus]}
         setFocus={setFocus}
         allowAppend={true}
+        contentType='alternatives'
       />
       <div className='grow flex flex-col items-center justify-center'>
         <Form

@@ -44,7 +44,7 @@ export const StepCarousel = () => {
 
         <li className='w-max text-lg flex flex-col items-center'>
           <span>Step {step}:</span>
-          <span>{Steps[step]}</span>
+          <span>{Steps[step] === 'Alternatives' ? 'Options' : Steps[step]}</span>
         </li>
         
         <li className='w-max grow text-sm opacity-60 basis-1 flex flex-col items-center'>
