@@ -50,6 +50,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
             }
           }}
           onBlur={() => window.scrollTo(0, 84)}
+          onFocus={e => e.preventDefault()}
         />
       </div>
       <div className='flex flex-col sm:flex-row items-center gap-2'>
@@ -63,6 +64,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
           id='description'
           value={description}
           onChange={e => updateDescription(e.target.value)}
+          onFocus={e => e.preventDefault()}
         />
       </div>
       <button>
