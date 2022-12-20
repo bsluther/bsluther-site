@@ -60,8 +60,8 @@ export const CardColumn = ({ items, handleClick, focus, setFocus, allowAppend, c
 
   return (
     <ul
-      className={`flex flex-wrap items-center w-full h-max p-2 sm:p-4 gap-2
-        sm:flex-col sm:h-full sm:w-max sm:bg-neutral-800
+      className={`flex flex-wrap items-center justify-center w-full h-max p-2 sm:p-4 gap-2
+        sm:flex-col sm:h-full sm:w-max sm:bg-neutral-800 sm:justify-start
 
       `}
     >

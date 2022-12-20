@@ -42,7 +42,7 @@ export const Criteria = () => {
         allowAppend={true}
         contentType='criteria'
       />
-      <div className='grow flex flex-col items-center justify-center'>
+      <div className='grow flex flex-col items-center justify-start sm:justify-center'>
         <Form
           heading={focus === 'DRAFT' ? 'Add a criterion' : 'Edit criterion'}
           title={editing.title}

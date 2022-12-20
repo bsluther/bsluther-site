@@ -34,7 +34,7 @@ export const Alternatives = () => {
         allowAppend={true}
         contentType='alternatives'
       />
-      <div className='grow flex flex-col items-center justify-center'>
+      <div className='grow flex flex-col items-center justify-start sm:justify-center'>
         <Form
           heading={focus === 'DRAFT' ? 'Add an option' : 'Edit option'}
           title={editing.title}
