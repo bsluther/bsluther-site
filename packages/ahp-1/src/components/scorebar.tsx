@@ -53,7 +53,7 @@ export const Scorebar = ({ rating, position }: ScorebarProps) => {
   // const bars = new Array(16).fill(8).map((_, ix) => (ix) < score).reverse()
   // console.log(bars)
   return (
-    <div className='flex flex-col w-max space-y-1 p-4 bg-neutral-600NO rounded-t-sm'>
+    <div className='flex flex-col w-max space-y-1 p-4 rounded-t-sm'>
       {pipe(
         rating,
         O.fold(

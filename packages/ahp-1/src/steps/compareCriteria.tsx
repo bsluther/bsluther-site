@@ -41,7 +41,7 @@ export const CompareCriteria = () => {
   }, [])
 
   return (
-    <div className='w-full h-full flex'>
+    <div className='w-full h-full flex flex-col sm:flex-row'>
       <CardColumn 
         items={alternatives}
         handleClick={() => null}
@@ -58,7 +58,7 @@ export const CompareCriteria = () => {
         allowAppend={false}
         contentType='criteria'
       />
-      <div className='grow flex flex-col items-center justify-center space-y-8'>
+      <div className='grow flex flex-col items-center justify-center space-y-4 sm:space-y-8'>
         <Versus2 
           against={pipe(
             O.of((x: string) => criteria[x].title),

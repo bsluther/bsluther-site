@@ -1,6 +1,5 @@
 import { identity, pipe } from 'fp-ts/lib/function'
 import * as O from 'fp-ts/Option'
-import { useBreakpoint } from 'ui'
 import { Rating, Steps } from '../core'
 import { Scorebar } from './scorebar'
 
@@ -87,23 +86,23 @@ interface Versus2Props {
 }
 
 export const Versus2 = ({ to, against, rating, rate, round, criteria }: Versus2Props) => {
-  const { isPastBreakpoint } = useBreakpoint()
+
   return  (
     <form
       style={{
-        boxShadow: isPastBreakpoint('sm') ? '0 0 .2rem .2rem rgba(30 30 30)' : ''
+        boxShadow: '0 0 .2rem .2rem rgba(30 30 30)'
       }}
-      className='flex flex-col items-center w-11/12 sm:w-3/4 h-max sm:text-neutral-200 bg-neutral-700 rounded-md'
+      className='flex flex-col items-center w-3/4 h-max text-neutral-200 bg-neutral-700 rounded-md'
       onSubmit={e => e.preventDefault()}
     >
-      {isPastBreakpoint('sm') && <Round round={round} criteria={criteria} />}
-      <div className='w-full flex sm:px-8'>
+      <Round round={round} criteria={criteria} />
+      <div className='w-full flex px-8'>
         <div className='w-max flex flex-col items-center'>
           <Scorebar rating={rating} position='AGAINST' />
           <Contestant title={against} position='AGAINST' />
         </div>
         <div className='grow flex items-center justify-center'>
-          <span className='text-neutral-500 font-bold text-4xl sm:text-8xl'>vs</span>
+          <span className='text-neutral-500 font-bold text-8xl'>vs</span>
         </div>
         <div className='w-max flex flex-col items-center'>
           <Scorebar rating={rating} position='TO' />

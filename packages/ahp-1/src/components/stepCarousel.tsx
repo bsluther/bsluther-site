@@ -34,15 +34,25 @@ export const StepCarousel = () => {
 
   return (
     <nav className='flex items-center w-full min-h-[5rem] h-max text-neutral-100 bg-green-800 py-1'>
-      {step !== Steps.Goal
+      {/* {step !== Steps.Goal
         ? <ChevronLeftSvg 
             className='w-8 h-8 scale-y-150' 
             onClick={() => gotoPrevStep(step)} 
           />
-        : <div className='w-8 h-8' />}
+        : <div className='w-8 h-8' />} */}
+      <div className='w-12 h-10 flex justify-end items-center'>
+        {step !== Steps.Goal &&
+          <ChevronLeftSvg 
+            className='w-8 h-8 scale-y-150' 
+            onClick={() => gotoPrevStep(step)} 
+          />}
+      </div>
       <ol className='flex w-full items-center'>
 
-        <li className='w-max grow text-sm opacity-60 basis-1 flex flex-col items-center'>
+        <li 
+          className='w-max grow text-sm opacity-60 basis-1 flex flex-col items-center'
+          onClick={() => gotoPrevStep(step)}
+        >
           {Steps[prevStep] && <>
             <span>Step {step - 1}:</span>
             <span className='max-w-[4rem] text-center'>{parseStep(prevStep)}</span>
@@ -54,7 +64,10 @@ export const StepCarousel = () => {
           <div className='text-center inline-block'>{parseStep(step)}</div>
         </li>
         
-        <li className='w-max max-w-full grow text-sm opacity-60 basis-1 flex flex-col items-center px-1'>
+        <li 
+          className='w-max max-w-full grow text-sm opacity-60 basis-1 flex flex-col items-center px-1'
+          onClick={() => gotoNextStep(step)}
+        >
           {Steps[nextStep] && <>
             <span>Step {step + 1}:</span>
             <div className='max-w-[4rem] text-center'>{parseStep(nextStep)}</div>
@@ -62,11 +75,18 @@ export const StepCarousel = () => {
         </li>
 
       </ol>
-      {step !== Steps.Results &&
+      <div className='w-12 h-10 flex justify-start items-center'>
+        {step !== Steps.Results &&
+          <ChevronRightSvg 
+            className='w-8 h-8 scale-y-150' 
+            onClick={() => gotoNextStep(step)} 
+          />}
+      </div>
+      {/* {step !== Steps.Results &&
         <ChevronRightSvg 
           className='w-8 h-8 scale-y-150'
           onClick={() => gotoNextStep(step)}
-        />}
+        />} */}
     </nav>
   )
 }

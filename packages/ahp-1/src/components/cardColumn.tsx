@@ -61,7 +61,7 @@ export const CardColumn = ({ items, handleClick, focus, setFocus, allowAppend, c
           contentType={contentType}
         />)}
       {allowAppend && 
-        <PlusSvg className={card({ active: focus.includes('DRAFT'), className: 'w-8 h-8', contentType })} onClick={() => setFocus('DRAFT')} />}
+        <PlusSvg className={card({ active: focus.includes('DRAFT'), className: 'w-8 h-max', contentType })} onClick={() => setFocus('DRAFT')} />}
     </ul>
   )
 }
