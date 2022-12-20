@@ -31,6 +31,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
           handleDone()
         }
       }}
+      onFocus={e => window.scrollTo(0, 0)}
       // onBlur={() => window.scrollTo(0, 84)}
     >
       <h1 className='text-black text-xl hidden sm:inline'>{heading}</h1>
