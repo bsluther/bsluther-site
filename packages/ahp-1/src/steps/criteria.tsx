@@ -25,7 +25,7 @@ export const Criteria = () => {
   }))
 
   return (
-    <div className='w-full h-full flex flex-col sm:flex-row'>
+    <div className='w-full sm:h-full flex flex-col sm:flex-row'>
       <CardColumn 
         items={alternatives}
         handleClick={() => null}
