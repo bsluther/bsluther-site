@@ -31,8 +31,6 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
           handleDone()
         }
       }}
-      onFocus={e => window.scrollTo(0, 0)}
-      // onBlur={() => window.scrollTo(0, 84)}
     >
       <h1 className='text-black text-xl hidden sm:inline'>{heading}</h1>
       <div className='flex w-full sm:w-max items-center gap-1 sm:gap-2'>
@@ -42,7 +40,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
         >Title: </label>
         <input
           className='bg-neutral-600 rounded-sm outline-neutral-700 px-2 py-1 w-full sm:w-max'
-          autoFocus
+          autoFocus={isPastBreakpoint('sm')}
           spellCheck={false}
           id='title'
           value={title}
@@ -51,7 +49,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
               updateTitle(e.target.value)
             }
           }}
-          // onBlur={() => window.scrollTo(0, 84)}
+          onFocus={e => window.scrollTo(0, 0)}
         />
       </div>
       <div className='flex flex-col sm:flex-row items-center gap-1 sm:gap-2 w-full'>

@@ -35,10 +35,10 @@ interface StackedBarChartProps {
 }
 
 
-const colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#ffff33','#a65628','#f781bf','#999999']
+const colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#a65628','#f781bf','#999999']
 
 const Key = ({ seriesColors }: { seriesColors: Record<string, string> }) =>
-  <div className='flex space-x-2 sm:space-x-8 text-xs sm:text-base flex-wrap'>
+  <div className='flex gap-2 sm:space-x-8 text-xs sm:text-base flex-wrap'>
     {Object.entries(seriesColors).map(([label, color]) => 
       <span 
         key={label} 
