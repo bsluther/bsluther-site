@@ -64,11 +64,11 @@ interface RoundProps {
 
 const Round = ({ round, criteria }: RoundProps) => {
   if (round === Steps.CompareCriteria) return (
-    <h1 className='w-full text-4xl text-center p-4'>Criteria Round</h1>
+    <h1 className='w-full text-4xl text-center p-4 hidden sm:inline'>Criteria Round</h1>
   )
   return (
     <div className='flex flex-col w-full p-4 space-y-4'>
-      <h1 className='text-4xl text-center'>Options Round</h1>
+      <h1 className='text-4xl text-center hidden sm:inline'>Options Round</h1>
       {pipe(criteria, O.fold(
         () => <span className='h-8' />,
         criteria => <h2 className='text-2xl text-center uppercase'>By "{criteria}"</h2>
@@ -96,7 +96,7 @@ export const Versus2 = ({ to, against, rating, rate, round, criteria }: Versus2P
       className='flex flex-col items-center w-11/12 sm:w-3/4 h-max sm:text-neutral-200 bg-neutral-700 rounded-md'
       onSubmit={e => e.preventDefault()}
     >
-      {isPastBreakpoint('sm') && <Round round={round} criteria={criteria} />}
+      <Round round={round} criteria={criteria} />
       <div className='w-full flex sm:px-8'>
         <div className='w-max flex flex-col items-center'>
           <Scorebar rating={rating} position='AGAINST' />
