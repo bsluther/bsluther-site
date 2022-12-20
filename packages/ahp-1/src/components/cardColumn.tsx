@@ -16,7 +16,7 @@ const card = cva(['sm:w-48 sm:text-base text-xs w-max h-max sm:h-8 text-center r
   }, 
 })
 
-const plusCard = cva(['sm:w-48 sm:text-base text-xs w-6 h-6 sm:h-8 text-center rounded-sm px-2 py-1 cursor-pointer'], {
+const plusCard = cva(['sm:w-48 sm:text-base text-xs w-10 h-6 sm:h-8 text-center rounded-sm cursor-pointer flex items-center justify-center'], {
   variants: {
     active: {
       true: 'outline',
@@ -73,8 +73,10 @@ export const CardColumn = ({ items, handleClick, focus, setFocus, allowAppend, c
           isFocused={focus.includes(itm.id)}
           contentType={contentType}
         />)}
-      {allowAppend && 
-        <PlusSvg className={plusCard({ active: focus.includes('DRAFT'), contentType })} onClick={() => setFocus('DRAFT')} />}
+      {allowAppend &&
+        <div className={plusCard({ active: focus.includes('DRAFT'), contentType })} onClick={() => setFocus('DRAFT')}>
+          <PlusSvg className={'w-6 h-6'} onClick={() => setFocus('DRAFT')} />
+        </div>}
     </ul>
   )
 }
