@@ -13,24 +13,25 @@ export const useMatrixPosition = (orderedIds: string[], matrix: Matrix) => {
     if (complete) {
       setComparingX(orderedIds[0])
       setComparingY(orderedIds[1])
-      return
-    }
-    const nextEmpty = findEmpty(matrix)
-    pipe(
-      nextEmpty,
-      O.fold(
-        () => {
-          setComparingX(null)
-          setComparingY(null)
-          setComplete(true)
-        },
-        ({ x, y }) => {
-          setComplete(false)
-          setComparingX(orderedIds[x])
-          setComparingY(orderedIds[y])
-        }
+      setComplete(true)
+    } else {
+      const nextEmpty = findEmpty(matrix)
+      pipe(
+        nextEmpty,
+        O.fold(
+          () => {
+            setComparingX(orderedIds[0])
+            setComparingY(orderedIds[1])
+            setComplete(true)
+          },
+          ({ x, y }) => {
+            setComplete(false)
+            setComparingX(orderedIds[x])
+            setComparingY(orderedIds[y])
+          }
+        )
       )
-    )
+    }
   }
 
   const compare = (id: string) => {

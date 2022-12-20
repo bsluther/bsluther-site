@@ -42,9 +42,9 @@ const use3dMatrixPosition = ({ xLegend, yLegend, zLegend, matrix }: Use3dMatrixP
         return
       }
     }
-    setX(null)
-    setY(null)
-    setZ(null)
+    setX(xLegend[0])
+    setY(yLegend[0])
+    setZ(zLegend[0])
     setComplete(true)
   }
 
