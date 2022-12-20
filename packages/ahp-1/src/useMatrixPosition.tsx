@@ -10,7 +10,11 @@ export const useMatrixPosition = (orderedIds: string[], matrix: Matrix) => {
   const [complete, setComplete] = useState(false)
 
   const compareNextEmpty = () => {
-    if (complete) return
+    if (complete) {
+      setComparingX(orderedIds[0])
+      setComparingY(orderedIds[1])
+      return
+    }
     const nextEmpty = findEmpty(matrix)
     pipe(
       nextEmpty,
