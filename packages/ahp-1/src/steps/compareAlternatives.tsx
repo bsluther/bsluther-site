@@ -139,7 +139,7 @@ export const CompareAlternatives = () => {
   
   // console.log('alternativeComparison:', alternativeComparisons[z])
   return (
-    <div className='w-full h-full flex'>
+    <div className='w-full h-full flex flex-col sm:flex-row'>
       <CardColumn 
         items={orderedAlternatives}
         handleClick={compare}
@@ -156,7 +156,7 @@ export const CompareAlternatives = () => {
         allowAppend={false}
         contentType='criteria'
       />
-      <div className='grow flex flex-col items-center justify-center space-y-8'>
+      <div className='grow flex flex-col items-center justify-center space-y-4 sm:space-y-8'>
         <Versus2
           against={pipe(
             O.fromNullable(x),

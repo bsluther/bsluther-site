@@ -47,7 +47,7 @@ interface ContestantProps {
 const Contestant = ({ title, position }: ContestantProps) => {
   return (
     <div
-      className='w-36 h-12 bg-neutral-900NO text-neutral-200 text-xl font-bold rounded-t-md border-x-4NO border-t-4NO border-neutral-900 uppercase flex items-center justify-center'
+      className='w-24 sm:w-36 h-12 text-neutral-200 text-xl font-bold rounded-t-md uppercase flex items-center justify-center'
     >{pipe(title, O.fold(
         () => '',
         identity
