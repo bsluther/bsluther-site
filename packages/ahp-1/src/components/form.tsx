@@ -49,7 +49,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
               updateTitle(e.target.value)
             }
           }}
-          onFocus={e => window.scrollTo(0, 0)}
+          onBlur={e => window.scrollTo(0, 0)}
         />
       </div>
       <div className='flex flex-col sm:flex-row items-center gap-1 sm:gap-2 w-full'>
@@ -64,6 +64,7 @@ export const Form = ({ title, description, heading, updateTitle, updateDescripti
           placeholder={isPastBreakpoint('sm') ? undefined : 'Description...'}
           value={description}
           onChange={e => updateDescription(e.target.value)}
+          onBlur={e => window.scrollTo(0, 0)}
         />
       </div>
       <button>
