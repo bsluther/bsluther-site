@@ -60,7 +60,7 @@ export const StepCarousel = () => {
         </li>
 
         <li className='max-w-[4rem] text-lg flex flex-col items-center'>
-          <span className=''>Step {step}:</span>
+          <span className='font-bold'>Step {step}:</span>
           <div className='text-center inline-block'>{parseStep(step)}</div>
         </li>
         
