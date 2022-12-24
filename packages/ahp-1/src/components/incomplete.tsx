@@ -11,7 +11,7 @@ export const Incomplete = ({ incomplete }: { incomplete: Steps[] }) => {
   return (
     <div className='w-full h-full flex flex-col items-center justify-center'>
       <span
-        className='bg-neutral-800 px-4 py-2 w-max h-max rounded-md'
+        className='bg-neutral-800 px-4 py-2 w-maxNO h-maxNO rounded-md'
       >{incompleteToStr(incomplete)}</span>
       <span className='h-1/4 w-1/4' />
     </div>

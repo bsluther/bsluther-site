@@ -150,12 +150,11 @@ const MobileIcon = () => {
 
 const Hamburger = () => {
   const [menuOpen, setMenuOpen] = useState(false)
-  const router = useRouter()
-  const hamburgerRef = useRef<HTMLButtonElement>(null)
+  const hamburgerRef = useRef<HTMLDivElement>(null)
 
   useOutsideClick([hamburgerRef], () => setMenuOpen(false))
   return (
-    <button
+    <div
       className='relative'
       ref={hamburgerRef}
     >
@@ -203,7 +202,7 @@ const Hamburger = () => {
           onClick={() => setMenuOpen(false)}
         >Blog</Link>
       </ul>
-    </button>
+    </div>
   )
 }
 
