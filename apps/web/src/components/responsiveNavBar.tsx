@@ -52,7 +52,9 @@ interface SubmenuProps {
 const Submenu = ({ label, baseHref, items, handleClick }: SubmenuProps) => {
   const [menuOpen, setMenuOpen] = useState(false)
   return (
-    <div className='flex flex-col items-start h-max pb-2'>
+    <div className={`flex flex-col items-start h-max pb-2
+      transition-transform duration-300 origin-top
+      ${menuOpen ? 'scale-y-100NO' : 'scale-y-0NO'}`}>
       <Link 
         href={baseHref} 
         onClick={() => {
@@ -61,7 +63,7 @@ const Submenu = ({ label, baseHref, items, handleClick }: SubmenuProps) => {
         }}
       >{label}</Link>
       <ul className={`h-max flex flex-col items-start border-l-2 border-neutral-900 space-y-2 pl-2 pt-2
-        transition-transform duration-500 origin-top overflow-hidden
+        transition-transform duration-300 origin-top overflow-hidden
         ${menuOpen ? 'scale-y-100NO' : 'scale-y-0NO'}`}
       >
         {items.map(([label, href]) =>
@@ -113,7 +115,7 @@ const MobileIcon = () => {
 
       <ul
         className={`absolute top-full left-0 bg-neutral-100 w-max h-max px-4 py-2
-          transition-transform origin-top duration-500 ease-in-out translate-y-2 space-y-2
+          transition-transform origin-top duration-300 ease-in-out translate-y-2 space-y-2
           ${menuOpen ? 'scale-y-100' : 'scale-y-0'}
         `}
       >
@@ -123,7 +125,7 @@ const MobileIcon = () => {
           href='/'
           onClick={() => setMenuOpen(false)}
         >Home</Link>
-        {/* <li className={`transition transform origin-top duration-500 ease-in-out 
+        {/* <li className={`transition transform origin-top duration-300 ease-in-out 
           ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Projects</li> */}
         <Submenu 
           label='Projects' 
@@ -136,7 +138,7 @@ const MobileIcon = () => {
           handleClick={() => setMenuOpen(false)}
         />
         <Link 
-          className={`transition transform origin-top duration-500 ease-in-out 
+          className={`transition transform origin-top duration-300 ease-in-out 
             ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
           href='/blog'
           onClick={() => setMenuOpen(false)}
@@ -172,14 +174,14 @@ const Hamburger = () => {
         />
       </svg>
       <ul
-        className={`absolute top-full right-0 bg-neutral-100 w-max h-max px-4 py-2
+        className={`absolute z-50 top-full right-0 bg-neutral-100 w-max h-max px-4 py-2
           flex flex-col items-start
           transition-transform origin-top duration-300 ease-in-out translate-y-2 space-y-2
           ${menuOpen ? 'scale-y-100' : 'scale-y-0'}
         `}
       >
         <Link 
-          className={`transition transform origin-top duration-500 ease-in-out 
+          className={`transition transform origin-top duration-300 ease-in-out 
             ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
           href='/'
           onClick={() => setMenuOpen(false)}
@@ -195,7 +197,7 @@ const Hamburger = () => {
           handleClick={() => setMenuOpen(false)}
         />
         <Link 
-          className={`transition transform origin-top duration-500 ease-in-out 
+          className={`transition transform origin-top duration-300 ease-in-out 
             ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
           href='/blog'
           onClick={() => setMenuOpen(false)}
