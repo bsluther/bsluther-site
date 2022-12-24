@@ -94,60 +94,6 @@ const InitialsIcon = ({ onClick }: { onClick: () => void }) => {
   )
 }
 
-const MobileIcon = () => {
-  const [menuOpen, setMenuOpen] = useState(false)
-  const router = useRouter()
-  
-  return (
-    <nav className='relative w-full h-max'>
-      <div 
-        className='w-full flex items-center space-x-4'
-        onClick={() => setMenuOpen(prev => !prev)}
-      >
-        {/* <div className='w-max h-max invisible'>
-          <NameIcon onClick={() => null} />
-        </div> */}
-        <NameIcon onClick={() => null} />
-        <div className='flex text-neutral-100'>
-          <span className='text-neutral-100 capitalize text-2xl font-semiboldNO'>{parseRoute(router.route)}</span>
-        </div>
-      </div>
-
-      <ul
-        className={`absolute top-full left-0 bg-neutral-100 w-max h-max px-4 py-2
-          transition-transform origin-top duration-300 ease-in-out translate-y-2 space-y-2
-          ${menuOpen ? 'scale-y-100' : 'scale-y-0'}
-        `}
-      >
-        <Link 
-          className={`transition transform origin-top duration-500 ease-in-out 
-            ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
-          href='/'
-          onClick={() => setMenuOpen(false)}
-        >Home</Link>
-        {/* <li className={`transition transform origin-top duration-300 ease-in-out 
-          ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}>Projects</li> */}
-        <Submenu 
-          label='Projects' 
-          baseHref='/projects'
-          items={[
-            ['Overview', '/'],
-            ['AHP', '/ahp'],
-            ['MeasureTS', '/measure-ts']
-          ]}
-          handleClick={() => setMenuOpen(false)}
-        />
-        <Link 
-          className={`transition transform origin-top duration-300 ease-in-out 
-            ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
-          href='/blog'
-          onClick={() => setMenuOpen(false)}
-        >Blog</Link>
-      </ul>
-    </nav>
-  )
-}
-
 const Hamburger = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const hamburgerRef = useRef<HTMLDivElement>(null)
@@ -180,7 +126,7 @@ const Hamburger = () => {
         `}
       >
         <Link 
-          className={`transition transform origin-top duration-300 ease-in-out 
+          className={`transition-transform origin-top duration-300 ease-in-out 
             ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
           href='/'
           onClick={() => setMenuOpen(false)}
@@ -196,7 +142,7 @@ const Hamburger = () => {
           handleClick={() => setMenuOpen(false)}
         />
         <Link 
-          className={`transition transform origin-top duration-300 ease-in-out 
+          className={`transition-transform origin-top duration-300 ease-in-out 
             ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
           href='/blog'
           onClick={() => setMenuOpen(false)}
@@ -212,7 +158,6 @@ export const ResponsiveNavBar = () => {
 
   if (!isPastBreakpoint('sm')) return (
     <section className='w-full h-max py-3 px-4 flex items-center bg-neutral-700'>
-      {/* <NameIcon onClick={() => router.push('/')} /> */}
       <InitialsIcon onClick={() => router.push('/')} />
       <div className='grow'></div>
       <Hamburger />
