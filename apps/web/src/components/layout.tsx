@@ -12,7 +12,7 @@ export const Layout = ({ children }: { children: ReactNode }) => {
     <main 
       className={`max-h-fullNO max-w-full h-screen w-screenNO ${recursive.className}`}
     >
-      <div className='flex flex-col max-h-fullNO'>
+      <div className='flex flex-col h-full max-h-fullNO'>
         <ResponsiveNavBar />
         <div className='grow max-h-fullNO h-full text-black'>
           {children}
