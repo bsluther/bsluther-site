@@ -10,11 +10,11 @@ export const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <main 
-      className={`max-h-full max-w-full h-screenNO w-screenNO ${recursive.className}`}
+      className={`max-h-fullNO max-w-full h-screen w-screenNO ${recursive.className}`}
     >
-      <div className='flex flex-col max-h-full'>
+      <div className='flex flex-col max-h-fullNO'>
         <ResponsiveNavBar />
-        <div className='grow max-h-full bg-neutral-400 text-black'>
+        <div className='grow max-h-fullNO h-full text-black'>
           {children}
         </div>
       </div>

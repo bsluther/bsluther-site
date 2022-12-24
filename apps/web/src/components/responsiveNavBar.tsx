@@ -121,12 +121,12 @@ const Hamburger = () => {
       <ul
         className={`absolute z-50 top-full right-0 bg-neutral-100 w-max h-max px-4 py-2
           flex flex-col items-start
-          transition-transform origin-top duration-300 ease-in-out translate-y-2 space-y-2
+          transition-all origin-top duration-300 ease-in-out translate-y-2 space-y-2
           ${menuOpen ? 'scale-y-100' : 'scale-y-0'}
         `}
       >
         <Link 
-          className={`transition-transform origin-top duration-300 ease-in-out 
+          className={`transition-all origin-top duration-300 ease-in-out 
             ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
           href='/'
           onClick={() => setMenuOpen(false)}
@@ -142,7 +142,7 @@ const Hamburger = () => {
           handleClick={() => setMenuOpen(false)}
         />
         <Link 
-          className={`transition-transform origin-top duration-300 ease-in-out 
+          className={`transition-all origin-top duration-300 ease-in-out 
             ${menuOpen ? 'scale-y-100' : 'scale-y-0'}`}
           href='/blog'
           onClick={() => setMenuOpen(false)}
