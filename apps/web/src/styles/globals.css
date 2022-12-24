@@ -6,7 +6,7 @@
 </svg> */
 @layer base {
   html {
-    @apply bg-neutral-700
+    @apply bg-neutral-400
   }
 }
 
@@ -47,12 +47,4 @@
 .ahp-slider-disabled::-webkit-slider-thumb {
   -webkit-appearance: none;
   apperance: none;
-  /* backgroundImage: url(../../public/sliderIcon.svg); */
-  /* background-color: rgb(212 212 212); */
-  /* border: .1rem solid #a3a3a3; */
-  /* width: 1.5rem; */
-  /* height: 2.5rem; */
-  /* border-radius: 10%;  */
-  /* cursor: pointer; */
-  /* box-shadow: .15rem .25rem .2rem black; */
 }

@@ -210,7 +210,7 @@ export const ResponsiveNavBar = () => {
   const router = useRouter()
 
   if (!isPastBreakpoint('sm')) return (
-    <section className='w-full h-max py-3 px-4 flex items-center'>
+    <section className='w-full h-max py-3 px-4 flex items-center bg-neutral-700'>
       {/* <NameIcon onClick={() => router.push('/')} /> */}
       <InitialsIcon onClick={() => router.push('/')} />
       <div className='grow'></div>
@@ -218,7 +218,7 @@ export const ResponsiveNavBar = () => {
     </section>
   )
   return (
-    <section className='flex w-full h-max p-4 items-center space-x-12'>
+    <section className='flex w-full h-max p-4 items-center space-x-12 bg-neutral-700'>
       <NameIcon onClick={() => router.push('/')} />
       <div className='grow flex space-x-12'>
         <NavButton label='Home' href='/' />
