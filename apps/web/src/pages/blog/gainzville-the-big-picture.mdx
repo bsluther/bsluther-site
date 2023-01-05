@@ -7,10 +7,17 @@ excerpt: What is Gainzville?
 import { BlogLayout } from '../../components/blog/blogLayout'
 import Image from 'next/image'
 
-# Gainzville: The Big Picture
+
+# GV: Overview
 A high-level overview of the major components of Gainzville.
 
+### Templates and Instances
+
+Many of the concepts I'm going to introduce (activity, facet, data type, series) actually have a dual-nature: they are either a template or an instance of a template. The template is a specification or mold which can be used to create instances. Let's take the example of a "pull-up" activity. The activity template is something like a profile of the activity: it has instructions for performing the activity, maybe some pictures or videos, and other information like which muscle groups it works out or what training stimulus it targets.
+
 <Image src="/at-ai.png" height={700} width={700} alt='at-ai' priority />
+
+When a user actually "does a pull-up", they record an *instance* of that particular activity template. That instance has more detailed information such as the time it took place, how many reps were done, how much load was used, etc. This pattern is used for a number of concepts and while the specifics vary, the core idea is just that there's some template which is used to make instances.
 
 ### Activity
 
@@ -37,7 +44,7 @@ The identity of an activity forms the "anchor" which we can attach other informa
 
 In short, a series is a collection of activities. A group of sets is the most common instance, as in "I did 3 sets of royal lunges". Series (which is a zero-plural, meaning the plural of series is series... which is a bit confusing, may want to find a better name) have more flexibility than that though, you can put any activities into them, in any order. So an "achilles health circuit" could be a series containing "royal lunges", "barbed wires", and "circle lunges". Then if I wanted to do 3 sets of my "achilles health circuit", I just make a series of series! One way to think of a series is like a layer in Photoshop, it groups together elements while preserving some "spatial" characteristics, order in our example - along with "rest".
 
-It's pretty common when you're doing some training to say "do 3 circuits with 2 minutes rest between each circuit". Series bake in that idea with a special "rest" element. It means exactly what you think it should, and you can insert it anywhere you like, so in our "achilles health circuit" we might have a series like this:
+It's pretty common when you're doing some training to say "do 3 sets of royal lunges with 2 minutes rest between each set". Series bake in that idea with a special "rest" element. It means exactly what you think it should, and you can insert it anywhere you like, so in our "achilles health circuit" we might have a series like this:
 ```js
 // in pseudocode, where := means "defined to be" and [] indicates a series
 achillesHealthCircuit := [
@@ -48,15 +55,14 @@ achillesHealthCircuit := [
 
 myTraining := [
 	'achillesHealthCircuit',
-	rest(2 minutes),
+	rest(1 minute),
 	'achillesHealthCircuit',
-	rest(2 minutes),
+	rest(1 minute),
 	'achillesHealthCircuit'
 ]
 ```
 
 Series also allow for another ergonomic feature: rather than describing every single activity, we can describe the entire series at once. We haven't covered `Facets` yet which are the pieces which handle describing things, but the notion if pretty intuitive. Say we performed the above "achilles health circuit" with 10 lb ankle weights on. Rather than going to each activity and repetitively adding the "load: 10lb" and "loading mechanism: ankle weight" descriptions, we can describe the entire "achilles health circuit" as such. If we got tired and took the ankle weights off for the last set, we can override the series description by just describing the same thing differently on a specific set. These cascading descriptions allow us to quickly and coherenly describe a group of things, but still override that broad description when a specific activity breaks the pattern.
-
 
 ### Facets (and Data Types)
 
@@ -87,6 +93,21 @@ In order for any of this to actually be useful, it has be ergonomic enough that 
 It's worth noting that while the intention is to allow users to create their own facets, Gainzville will ship with a number of common or particularly important facets. This should help to standardize commonly used facets like "reps", "load", "distance", etc. It will also allow for some facets to have some enhancements, for example by connecting "load" values to bodyweight so that an exercise which is body-weight dependent can account for variations in a user's weight. It may be that after running for a while, it will become clear that almost every Facet can be "hardcoded" in, but even then the set of which facets that will be and how they will be represented is not obvious. I think it's better to let the community shape the facets in use than it is to try to create a complete set myself. 
 
 In summary, facets allow users to create meaningful training data. By combining data types with a unique identity, they bridge the gap between data and meaning. We need to be able to tell the difference between "reps: 10" and "intensity: 10", so rather than relying on the label (and disallowing duplication), we rely on identity. This pairs nicely with the idea that a facet takes a data type and assigns meaning to it.
+
+
+### Data Type
+Explicit representations: any instance of a data type is contained inside a standardized data structure.
+Serializable: any instance or template can be persisted.
+Structured: data types implement standardized operations such as:
+	`equals`
+	`lte`
+	`plus`
+	`minus`
+	`size`
+	`product`
+	`quotient`
+
+### Plans vs Instances
 
 
 export default ({ children }) =>
