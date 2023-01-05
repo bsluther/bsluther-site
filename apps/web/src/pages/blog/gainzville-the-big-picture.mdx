@@ -1,0 +1,90 @@
+---
+title: Gainzville - The Big Picture
+publishedOn: 2023-01-04
+excerpt: What is Gainzville?
+---
+
+import { BlogLayout } from '../../components/blog/blogLayout'
+
+# Gainzville: The Big Picture
+A high-level overview of the major components of Gainzville.
+
+### Activity
+
+This is the most basic concept in Gainzville, hopefully because it's the most basic way most people describe their training activity. "I went for a run and I did some pull-ups". There are many details left out of those statements - how far did you run? What grip did you use when you did your pull-ups? But ignoring those details for now, there's some "thing" which we usually have a specific name for (run, pull-up, boulder problem, single-leg romanian deadlift, etc.). Rather than limit ourselves to exercises, we can include things like waking up in the morning or weighing ourselves by using the broader term "activity".
+
+Describing what exactly an activity "is" can be quite complicated, so let us focus on 3 modes of description:
+1. The name of the activity.
+2. The instructions you would give someone to perform the exerice (could be verbal, written, a video, photos, diagram, etc.).
+3. Variables specific to a particular performance of an activity (e.g. how far you ran or what grip type you used for the pull-up).
+
+These 3 modes of description map to 3 concepts in Gainzville:
+1. Identity.
+2. A profile of the actiivty (instruction, description, videos, etc.).
+3. Facets.
+
+An `Activity` in Gainzville is a thing which has a unique identity. The identity is assigned when the `Activity` is created and rather than being tied to the *name* of the activity the entity itself is assigned a unique ID. So if I make an `Activity` called "Royal Lunge", behind the scenes it's actually called something like `9516c143-f856-43f6-aa39-a6c706617fa2`. What that means is that you too can go and create an `Activity` called "Royal Lunge" and both of them will exist happily side-by-side with the same name.
+
+Why is this desirable? For one, names of exercises are by no means standardized, but more importantly it is a bet on the ability of the community of users to surface valuable activities. When you go on YouTube, there isn't one "How to replace the alternator of a 2004 Civic" video, there are popularity/history-ranked results. Likewise, there shouldn't be one "royal lunge". The downside of course is that there can be hundreds activities called "royal lunge" (or any other name), but I think this can be mitigated through a combination of good search ranking and "libraries", which are collections of exercises which a user has organized themselves or which they've performed before. We can even warn a user, "You are recording an activity with the same name as one you've used before - would you like to use the previously recorded activity template?" Although this is an important foundational decision, it's getting a bit into the weeds, so let's return to the concept of identity.
+
+The identity of an activity forms the "anchor" which we can attach other information to. We can describe the "instructions" for the activity, record specific "instances" (more on that to come), give more detailed information such as "reps" or "distance", and eventually search for recorded instances of the activity. The "instructions" are just an explanation of what the activity entails, intended to clarify and instruct other users. When it comes time to generate data, we'll look to the more detailed information provided by "facets" (see section 3).
+
+
+### Series
+
+In short, a series is a collection of activities. A group of sets is the most common instance, as in "I did 3 sets of royal lunges". Series (which is a zero-plural, meaning the plural of series is series... which is a bit confusing, may want to find a better name) have more flexibility than that though, you can put any activities into them, in any order. So an "achilles health circuit" could be a series containing "royal lunges", "barbed wires", and "circle lunges". Then if I wanted to do 3 sets of my "achilles health circuit", I just make a series of series! One way to think of a series is like a layer in Photoshop, it groups together elements while preserving some "spatial" characteristics, order in our example - along with "rest".
+
+It's pretty common when you're doing some training to say "do 3 circuits with 2 minutes rest between each circuit". Series bake in that idea with a special "rest" element. It means exactly what you think it should, and you can insert it anywhere you like, so in our "achilles health circuit" we might have a series like this:
+```js
+// in pseudocode, where := means "defined to be" and [] indicates a series
+achillesHealthCircuit := [
+	'royal lunges',
+	'barbed wires',
+	'circle lunges'
+]
+
+myTraining := [
+	'achillesHealthCircuit',
+	rest(2 minutes),
+	'achillesHealthCircuit',
+	rest(2 minutes),
+	'achillesHealthCircuit'
+]
+```
+
+Series also allow for another ergonomic feature: rather than describing every single activity, we can describe the entire series at once. We haven't covered `Facets` yet which are the pieces which handle describing things, but the notion if pretty intuitive. Say we performed the above "achilles health circuit" with 10 lb ankle weights on. Rather than going to each activity and repetitively adding the "load: 10lb" and "loading mechanism: ankle weight" descriptions, we can describe the entire "achilles health circuit" as such. If we got tired and took the ankle weights off for the last set, we can override the series description by just describing the same thing differently on a specific set. These cascading descriptions allow us to quickly and coherenly describe a group of things, but still override that broad description when a specific activity breaks the pattern.
+
+
+### Facets (and Data Types)
+
+So far we've talk about `Activities` and arranging them inside `Series`. Now we want to get a little more fine-grained and describe those things in some systematic way. This is the role that `Facets` play: they describe things. If you want to say "I did 3 sets of 6 reps of royal lunges", you'd do so by attaching a facet to the "royal lunges" activity (or to the whole series, as we touched on previously). What exactly is a facet? Just like an `Activity`, it has **identity** - internally some unique identifier such as `9d3dfe8e-6e46-4f5c-b2b7-d3b3ae932140` and conceptually just the fact that it's one-of-a-kind. In addition to identity, each facet has a label and a value. The value isn't just anything though - it's a `DataType`.
+
+I'll go into data types in more detail later, but we need a working description of them to see what role they play for a facet. In the reps example, we want some kind of number as our data type. There are many kinds of numbers, but for now let's just call it "number". Then our "reps" facet would look something like this:
+```js
+repsFacet := {
+	id: "9d3dfe8e-6e46-4f5c-b2b7-d3b3ae932140"
+	label: "Reps",
+	dataType: Number
+}
+```
+Extending our earlier example, we might also want to keep track of the load. In that case, we want a facet called "load" with a data type of "mass". What is mass? It's a data type that represents mass. The implementation is a bit more involved, but the abstract idea is mega-simple: it's just a unified way of representing weight (aka mass, assuming we're all doing our training here on planet earth). An actual mass value might be "180 lbs 16 oz" or "64kg". The data type encapsulates all the complexity of representing the value and the operations we can perform on it, say if we want to search for the maximum load we've completed an activity with.
+
+Not all methods of loading have the same training effect though, wearing ankles weights isn't the same as say holding barbells. If the user wants to capture that level of detail, they could create another facet, let's call it "loading mechanism". What we'd like to be able to do is pick our particular loading mechanism from a list such as `["dumbbell", "barbell", "kettlebell", "ankle weight"]`. So our data type is a collection that we can choose one thing from. This is a special kind of data type: a constructor. Rather than specify every possible collection of strings (of which there are infinitely many), we specify a collection constructor. Any particular collection is constructed by giving a list of values to the constructor. This is roughly how collections are modelled in programming language theory, I'm just mimicking the parts that apply to our problem.
+
+There are a number of details to get into about data types. For example, we could model "loading mechanism" a bit differently using a string data type, which represents text. That would allow *any* text to typed in to a particular activity - "barbell" or "barbrell" (sic) or "a purple dragon". To some users that may be preferable, while in other cases (say when a coach is outlining a set of options to a client) it's preferable to limit the options to a specific list. That flexibility means that some responsibility - and some expressiveness - is given to the user to decide how they want to model their training data. Part of the goal of Gainzville is to find an appropriate balance of power between the restrictions and constructs built in to the app versus the expressiveness and responsibility given to the user.
+
+A good example of that balance will also help lead us back to what we started talking about, facets. Since the role of facets is describe an activity in more detail, there is some gray area concerning where activities end and facets begin. For example, say I have an activity called "pull-ups". There are a lot of ways to do a pull-up. I could make a facet called "grip type" with options such as "single-arm", "wide grip", and "standard grip". But couldn't I just as well make an activity called "Single-arm pull-up"? Yes. And each would have their pros and cons - the "pull-up" with "grip type" facet let's us know that we're doing some version of a pull-up, but if we want to query the data for our single arm pull-ups, we need a more complex query involving the facet. On the other hand, by using a more specific "one arm pull-up" activity, we lose out on the connection to all the different types of pull-ups (unless we use a category, more on that to come). There isn't an obviously "correct" way to make these distinctions, so I believe it's a good decision to delegate to the user.
+
+I've spent most of this section talking about data types rather than facets, which isn't suprising: facets are designed to be relatively simple. They wrap a data type with an identity and a label. The motivation for facets is similar to that of activity: identity provides structure, an anchor which we can use to make sense of an otherwise dizzying amount of data.
+
+Let's take a simple example like "reps", which wraps a `Number` data type (more likely, a `PositiveRealNumber`, but we'll leave the data types alone for now). We can use this facet to describe any activity. We can do "25 reps" of "royal lunges" and "10 reps" of "pull-ups" - both can utilize the same "reps" facet, because the facet isn't tied to any specific activity, it's just a description. By using the same "reps" facet, we know we mean the same thing - whatever data reps represents. This allows us to query a broad array of activities using a single variable, the "reps" facet. Say we want to find all the exercises we did which were in the hypertrophy range, which is the number of reps most suited to building muscle volume, and is typically around 7-15 reps per set. (Note that this a way more nuanced subject than that, for one it matters how hard you were working for those reps, but for another hypertrophy is a complex topic. The point for this example is that we can see how facets allow us to query data across different activities.) To construct this query, we can select all activities we've performed which have the facet "reps" with a value between 7 and 15. In return, we get a list of every activity that meets our criteria, which we can use to perform further analysis (how does volume of hypertrophy sets relate to bodyweight?), to produce a visualization (hypertrophy vs maximum load over time), or refine the query further (find all sets in the hypertrophy range which were part of the "leg" category).
+
+In order for any of this to actually be useful, it has be ergonomic enough that entering data isn't annoying and time-sucking. There are a number of features aimed at facilitating this process: series facets, default values, and autocompletion are primary. Series facets, which we discussed a bit in the **Series** section, allow you describe an entire series at once - often times many or all of the properties you're interested in are repeated from set to set. This just allows you to describe those facet values once for the whole series, and only enter further data if a specific activity differed from the norm. Default values can detect what value you entered recently in this particular context (eg the last time you did "pull-ups" with a "reps" facet) or can be configured by the user. Autocompletion can rank a number of previous entries for quick selection. You also have the option to "repeat" any paritcular activity or series, which will copy the activity along with all it's facets.
+
+It's worth noting that while the intention is to allow users to create their own facets, Gainzville will ship with a number of common or particularly important facets. This should help to standardize commonly used facets like "reps", "load", "distance", etc. It will also allow for some facets to have some enhancements, for example by connecting "load" values to bodyweight so that an exercise which is body-weight dependent can account for variations in a user's weight. It may be that after running for a while, it will become clear that almost every Facet can be "hardcoded" in, but even then the set of which facets that will be and how they will be represented is not obvious. I think it's better to let the community shape the facets in use than it is to try to create a complete set myself. 
+
+In summary, facets allow users to create meaningful training data. By combining data types with a unique identity, they bridge the gap between data and meaning. We need to be able to tell the difference between "reps: 10" and "intensity: 10", so rather than relying on the label (and disallowing duplication), we rely on identity. This pairs nicely with the idea that a facet takes a data type and assigns meaning to it.
+
+
+export default ({ children }) =>
+  <BlogLayout>{children}</BlogLayout>
