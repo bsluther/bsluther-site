@@ -8,7 +8,11 @@ module.exports = {
     '../../packages/ahp-1/**/*.{ts,tsx}'
   ],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        virgil: ['var(--font-virgil)']
+      }
+    }
   },
   plugins: []
 }

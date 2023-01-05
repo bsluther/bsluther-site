@@ -1,16 +1,18 @@
 import { ReactNode } from 'react'
 import { NavBar } from './navBar'
 import { Recursive } from '@next/font/google'
+import localFont from '@next/font/local'
 import { HorizontalNavBar } from './horizontalNavBar'
 import { ResponsiveNavBar } from './responsiveNavBar'
 
 const recursive = Recursive({ weight: 'variable', subsets: ['latin'] })
+const virgil = localFont({ src: '../../fonts/Virgil.woff2', variable: '--font-virgil' }) 
 
 export const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <main 
-      className={`max-h-fullNO max-w-full h-screen w-screenNO ${recursive.className}`}
+      className={`max-h-fullNO max-w-full h-screen w-screenNO ${recursive.className} ${virgil.variable}`}
     >
       <div className='flex flex-col h-full max-h-fullNO'>
         <ResponsiveNavBar />

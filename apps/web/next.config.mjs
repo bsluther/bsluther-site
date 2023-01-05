@@ -1,4 +1,4 @@
-import  remarkFrontmatter from 'remark-frontmatter'
+import remarkFrontmatter from 'remark-frontmatter'
 import rehypeHighlight from 'rehype-highlight'
 import nextTranspileModules from 'next-transpile-modules'
 import nextMDX from '@next/mdx'
