@@ -23,7 +23,9 @@ const use3dMatrixPosition = ({ xLegend, yLegend, zLegend, matrix }: Use3dMatrixP
   const [complete, setComplete] = useState(false)
 
   const compareNextEmpty = () => {
-    if (complete) return
+    if (complete) {
+      return
+    }
     for (let i = 0; i < matrix.length; i++) {
       const res = findEmpty(matrix[i])
       if (O.isSome(res)) {
@@ -43,7 +45,7 @@ const use3dMatrixPosition = ({ xLegend, yLegend, zLegend, matrix }: Use3dMatrixP
       }
     }
     setX(xLegend[0])
-    setY(yLegend[0])
+    setY(yLegend[1])
     setZ(zLegend[0])
     setComplete(true)
   }
@@ -156,7 +158,7 @@ export const CompareAlternatives = () => {
         allowAppend={false}
         contentType='criteria'
       />
-      <div className='grow flex flex-col items-center justify-center space-y-4 sm:space-y-8'>
+      <div className='grow flex flex-col items-center justify-center space-y-4 sm:space-y-8 pb-8'>
         <Versus2
           against={pipe(
             O.fromNullable(x),

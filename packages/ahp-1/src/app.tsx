@@ -8,7 +8,6 @@ import { CompareAlternatives } from './steps/compareAlternatives'
 import { CompareCriteria } from './steps/compareCriteria'
 import { Criteria } from './steps/criteria'
 import { Goal } from './steps/goal'
-import { Results } from './steps/results'
 import { Results2 } from './steps/results2'
 import { useAhpStore } from './store'
 
@@ -24,7 +23,7 @@ export const App = () => {
   const { isPastBreakpoint } = useBreakpoint()
   const step = useAhpStore(state => state.step)
   const store = useAhpStore()
-  console.log('STORE', store)
+  // console.log('STORE', store)
 
   return (
     <div className='w-full h-full bg-neutral-400 text-neutral-100 flex flex-col-reverse sm:flex-row'>

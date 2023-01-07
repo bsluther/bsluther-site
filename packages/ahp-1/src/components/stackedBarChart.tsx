@@ -1,28 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import { select, scaleBand, axisBottom, stack, max, scaleLinear, axisLeft } from 'd3'
 
-// interface Data {
-//   // alternativeTitle: string
-//   [key: string]: number
-// }
-
-// type Data = { [key: string]: number }[]
-
-// interface AlternativesData {
-//   alternativesLabels: string[]
-//   criteriaLabels: string[]
-//   alternativesData: {
-//     alternativesTitle: string
-//     [key: string]: number
-//   }[]1
-// }
-
-
-// export interface Datum {
-//   [titleSymbol]: string
-//   [key: string]: number
-// }
-
 export interface Datum {
   alternativeTitle: string,
   weights: { [key: string]: number }
@@ -38,7 +16,7 @@ interface StackedBarChartProps {
 const colors = ['#e41a1c','#377eb8','#4daf4a','#984ea3','#ff7f00','#a65628','#f781bf','#999999']
 
 const Key = ({ seriesColors }: { seriesColors: Record<string, string> }) =>
-  <div className='flex gap-2 sm:space-x-8 text-xs sm:text-base flex-wrap'>
+  <div className='flex gap-2 sm:space-x-8 text-xs sm:text-base flex-wrap items-center justify-center'>
     {Object.entries(seriesColors).map(([label, color]) => 
       <span 
         key={label} 
@@ -51,8 +29,10 @@ export const StackedBarChart = ({ alternativesLabels, criteriaLabels, data }: St
   const svgRef = useRef<SVGSVGElement | null>(null)
   const wrapperRef = useRef<HTMLDivElement | null>(null)
 
-  const seriesColors = criteriaLabels.reduce((acc, label, ix) => ({ ...acc, [label]: colors[ix] ?? 'purple' }), {} as Record<string, string>)
-  console.log('alternativesData', data)
+  const seriesColors = criteriaLabels.reduce(
+    (acc, label, ix) => ({ ...acc, [label]: colors[ix] ?? 'purple' }),
+    {} as Record<string, string>
+  )
 
   useEffect(() => {
     if (svgRef.current && wrapperRef.current) {
@@ -66,8 +46,6 @@ export const StackedBarChart = ({ alternativesLabels, criteriaLabels, data }: St
 
       const layers = stackGenerator(data)
       const extent = [0, max(layers, layer => max(layer, sequence => sequence[1])) ?? 0]
-      console.log('layers aka series', layers)
-      console.log('extent', extent)
 
       const xScale = scaleBand()
         .domain(alternativesLabels)
@@ -94,16 +72,11 @@ export const StackedBarChart = ({ alternativesLabels, criteriaLabels, data }: St
         .data(layers)
         .join('g')
         .attr('class', 'layer')
-        .attr('fill', series => {
-          // console.log('series in fill attr', series)
-          return seriesColors[series.key]
-        })
+        .attr('fill', series =>  seriesColors[series.key])
         .selectAll('rect')
         .data(layer => layer)
         .join('rect')
-        .attr('x', sequence => {
-          return xScale(sequence.data.alternativeTitle) ?? null // This is where we look to find the "title" for each bar of the graph
-        })
+        .attr('x', sequence => xScale(sequence.data.alternativeTitle) ?? null) // This is where we look to find the "title" for each bar of the graph
         .attr('width', xScale.bandwidth())
         .attr('y', sequence => yScale(sequence[1]))
         .attr('height', sequence => yScale(sequence[0]) - yScale(sequence[1]))

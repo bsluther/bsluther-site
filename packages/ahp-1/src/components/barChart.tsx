@@ -51,7 +51,6 @@ export const BarChart = ({ data, criteriaTitles }: BarChartProps) => {
     }
   }, [data, svgRef.current, wrapperRef.current])
 
-  console.log('data', data)
   return (
     <>
       <div

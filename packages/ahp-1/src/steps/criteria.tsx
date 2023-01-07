@@ -25,7 +25,7 @@ export const Criteria = () => {
   }))
 
   return (
-    <div className='w-full sm:h-full flex flex-col sm:flex-row'>
+    <div className='w-full h-full flex flex-col sm:flex-row'>
       <CardColumn 
         items={alternatives}
         handleClick={() => null}
@@ -42,11 +42,13 @@ export const Criteria = () => {
         allowAppend={true}
         contentType='criteria'
       />
-      <div className='grow flex flex-col items-center justify-start sm:justify-center'>
+      <div className='grow flex flex-col items-center justify-center sm:justify-center px-4 sm:px-0'>
         <Form
           heading={focus === 'DRAFT' ? 'Add a criterion' : 'Edit criterion'}
           title={editing.title}
+          titlePlaceholder="Enter a criterion to rank options by."
           description={editing.description}
+          descriptionPlaceholder="Describe this criterion in more detail (option)."
           updateTitle={title => {
             if (focus === 'DRAFT') {
               setDraft(prev => ({ ...prev, title }))

@@ -91,9 +91,7 @@ export const Results2 = () => {
       pipe(
         row,
         A.reduce(
-          { 
-            alternativeTitle: alternatives[alternativesOrder[ix]].title.replace(' ', '_') 
-          } as Datum,
+          { alternativeTitle: alternatives[alternativesOrder[ix]].title.replace(' ', '_') } as Datum,
           (acc, x) => ({ ...acc, weights: { ...acc.weights, ...x } })
         )
       )
@@ -101,10 +99,6 @@ export const Results2 = () => {
     
     ))
   )
-
-  // const toIterable = (obj: Record<string, number>)
-  
-
   
   return (
     <div className='flex flex-col items-center justify-start w-full h-full'>

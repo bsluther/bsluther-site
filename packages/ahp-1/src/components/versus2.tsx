@@ -47,11 +47,10 @@ interface ContestantProps {
 const Contestant = ({ title, position }: ContestantProps) => {
   return (
     <div
-      className='w-36 h-12 text-neutral-200 text-xl font-bold rounded-t-md uppercase flex items-center justify-center'
+      className='w-36 h-12 text-neutral-200 text-lg sm:text-xl font-bold rounded-t-md uppercase text-center px-2'
     >{pipe(title, O.fold(
         () => '',
         identity
-        // title => `${position}: ${title}`
     ))}
     </div>
   )
@@ -67,11 +66,11 @@ const Round = ({ round, criteria }: RoundProps) => {
     <h1 className='w-full text-4xl text-center p-4 hidden sm:inline'>Criteria Round</h1>
   )
   return (
-    <div className='flex flex-col w-full p-4 space-y-4'>
+    <div className='flex flex-col w-full pt-4 sm:p-4 sm:space-y-4'>
       <h1 className='text-4xl text-center hidden sm:inline'>Options Round</h1>
       {pipe(criteria, O.fold(
         () => <span className='h-8' />,
-        criteria => <h2 className='text-2xl text-center uppercase'>By "{criteria}"</h2>
+        criteria => <h2 className='text-xl sm:text-2xl text-center uppercase'>By "{criteria}"</h2>
       ))}
     </div>
   )
@@ -110,7 +109,7 @@ export const Versus2 = ({ to, against, rating, rate, round, criteria }: Versus2P
           <Contestant title={to} position='TO' />
         </div>
       </div>
-      <div className='bg-neutral-600NO w-full h-16 flex items-center px-4 border-4NO rounded-t-md border-neutral-800'>
+      <div className='w-full h-16 flex items-center px-4 rounded-t-md border-neutral-800'>
         <Slider rating={rating} rate={rate} />
       </div>
     </form>

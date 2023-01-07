@@ -265,8 +265,8 @@ export const nytStore = {
 export const secondNytStore = {
   "goal": {
       "id": "67f1f97b-f6cb-4ee6-92d3-02a6523d8671",
-      "title": "nyt",
-      "description": "",
+      "title": "Choose an ID format",
+      "description": "Example taken from open.nytimes.com, where they used AHP to choose a format for user IDs.",
       "alternatives": {
           "3a9eb740-ad14-4b7c-b029-eeb1fe909cd2": {
               "id": "3a9eb740-ad14-4b7c-b029-eeb1fe909cd2",

@@ -6,7 +6,7 @@ import { Alternative, Criterion } from '../core'
 const card = cva(['sm:w-48 sm:text-base text-xs w-max h-max sm:h-8 text-center rounded-sm px-2 py-1 cursor-pointer'], {
   variants: {
     active: {
-      true: 'outline',
+      true: 'outline outline-2 outline-green-500',
       false: ''
     },
     contentType: {
@@ -19,7 +19,7 @@ const card = cva(['sm:w-48 sm:text-base text-xs w-max h-max sm:h-8 text-center r
 const plusCard = cva(['sm:w-48 sm:text-base text-xs w-10 h-6 sm:h-8 text-center rounded-sm cursor-pointer flex items-center justify-center'], {
   variants: {
     active: {
-      true: 'outline',
+      true: 'outline outline-2 outline-green-500',
       false: ''
     },
     contentType: {

@@ -33,13 +33,7 @@ export const StepCarousel = () => {
   }
 
   return (
-    <nav className='flex items-center w-full min-h-[5rem] h-max text-neutral-100 bg-green-800 py-1'>
-      {/* {step !== Steps.Goal
-        ? <ChevronLeftSvg 
-            className='w-8 h-8 scale-y-150' 
-            onClick={() => gotoPrevStep(step)} 
-          />
-        : <div className='w-8 h-8' />} */}
+    <nav className='flex items-center w-full min-h-[5rem] h-max text-neutral-100 bg-neutral-600 py-1 border-tNO border-neutral-400'>
       <div className='w-12 h-10 flex justify-end items-center'>
         {step !== Steps.Goal &&
           <ChevronLeftSvg 
@@ -59,7 +53,7 @@ export const StepCarousel = () => {
           </>}
         </li>
 
-        <li className='max-w-[4rem] text-lg flex flex-col items-center'>
+        <li className='max-w-[4rem] text-lg flex flex-col items-center text-green-500'>
           <span className='font-bold'>Step {step}:</span>
           <div className='text-center inline-block'>{parseStep(step)}</div>
         </li>

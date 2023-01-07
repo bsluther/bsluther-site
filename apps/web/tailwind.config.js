@@ -8,7 +8,8 @@ module.exports = {
       ...sharedConfig.theme.extend,
       fontFamily: {
         ...sharedConfig.theme.extend.fontFamily,
-        virgil: ['var(--font-virgil)']
+        virgil: ['var(--font-virgil)'],
+        recursive: ['var(--font-recursive)']
       }
     }
   }

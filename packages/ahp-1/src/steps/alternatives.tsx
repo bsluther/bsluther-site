@@ -25,7 +25,7 @@ export const Alternatives = () => {
   }))
 
   return (
-    <div className='w-full sm:h-full flex flex-col sm:flex-row'>
+    <div className='w-full h-full flex flex-col sm:flex-row'>
       <CardColumn 
         items={alternatives}
         handleClick={(id: string) => setFocus(id)}
@@ -34,11 +34,13 @@ export const Alternatives = () => {
         allowAppend={true}
         contentType='alternatives'
       />
-      <div className='grow flex flex-col items-center justify-start sm:justify-center'>
+      <div className='grow flex flex-col items-center justify-center sm:justify-center px-4 sm:px-0'>
         <Form
           heading={focus === 'DRAFT' ? 'Add an option' : 'Edit option'}
           title={editing.title}
+          titlePlaceholder="Enter an option you're considering."
           description={editing.description}
+          descriptionPlaceholder="Describe the option in more detail (optional)."
           updateTitle={title => {
             if (focus === 'DRAFT') {
               setDraft(prev => ({ ...prev, title }))

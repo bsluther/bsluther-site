@@ -5,6 +5,7 @@ const BlogNav = () => {
   return (
     <nav className='flex-col hidden md:flex w-max px-4 bg-neutral-500 text-neutral-300 pt-4'>
       <Link href='gainzville-the-big-picture'>Gainzville: The Big Picture</Link>
+      <p className='text-neutral-100' />
       {/* <Link href='the-abstract-ecosystem'>The Abstract Ecosystem</Link> */}
     </nav>
   )
